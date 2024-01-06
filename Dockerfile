@@ -40,7 +40,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . /code/
 
 # Install the docqa package
-RUN pip install .
+RUN pip install .[dev]
 
 # For documentation
 EXPOSE 8000

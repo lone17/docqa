@@ -1,5 +1,5 @@
 pre-commit
 pytest
 wandb
-dotenv
+python-dotenv
 pytest-mock

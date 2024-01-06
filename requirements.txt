@@ -3,7 +3,6 @@ fastapi
 uvicorn
 websockets
 openai
-python-dotenv
 python-multipart
 angle-emb
 chromadb

@@ -12,3 +12,4 @@ env*
 venv*
 build*
 dockerbuild.log
+test*
