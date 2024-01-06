@@ -1,0 +1,14 @@
+marker/nougat_output/
+marker/.git
+marker/.github
+marker/.gitignore
+marker/data
+docqa/demo/data/cache
+docqa/demo/data/generative_agent/_chroma
+docqa/demo/data/test/
+docqa/demo/wandb/
+
+*.egg-info
+*build/
+*__pycache__/
+.env

@@ -1,0 +1,13 @@
+openai
+fastapi
+uvicorn
+websockets
+openai
+python-dotenv
+python-multipart
+angle-emb
+chromadb
+editdistance
+tiktoken
+pydantic
+numpy

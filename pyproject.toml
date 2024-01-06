@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools >= 61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+include-package-data = false
+packages.find.include = ["docqa*"]
+packages.find.exclude = ["tests*", "docqa.data_processing.marker*"]
+
+[project]
+name = "docqa"
+version = "0.0.0"
+requires-python = ">= 3.10"
+description = "Question Answering on documents."
+authors = [{ name = "Hieu Vu", email = "vmhieu17@gmail.com" }]
+readme = "README.md"
+dynamic = ["dependencies", "optional-dependencies"]
+
+[tool.setuptools.dynamic]
+dependencies = { file = ["requirements.txt"] }
+optional-dependencies.dev = { file = ["requirements-dev.txt"] }
+
+[tool.codespell]
+skip = "*.js,*.css,*.map"
+ignore-words-list = "llm,openai"
+quiet-level = 3
+check-filenames = ""
