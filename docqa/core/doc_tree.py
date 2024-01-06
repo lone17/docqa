@@ -139,7 +139,10 @@ def build_doc_tree_from_pdf(input_file: Path, output_dir: Path) -> dict:
         with open(marker_output_file, "r", encoding="utf-8") as f:
             marker_markdown = f.read()
     else:
-        marker_markdown = pdf_to_markdown(input_file, marker_output_file)
+        cache_dir = output_dir / "pdf_to_markdown_cache/"
+        marker_markdown = pdf_to_markdown(
+            input_file, marker_output_file, cache_dir=cache_dir
+        )
 
     tidy_text_sections_file = output_dir / "tidy_text_sections.json"
     tidy_markdown_file = output_dir / "tidy_output.md"

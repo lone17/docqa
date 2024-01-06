@@ -99,7 +99,7 @@ class QAPairGenerator(BaseModel):
         self,
         document: str,
         temperature: float = 1.0,
-        question_type: str = "comprehension",
+        question_type: str = "dense",
         num_questions: int = 5,
     ) -> tuple[list[dict[str, str]], list[dict]]:
         """
@@ -110,7 +110,7 @@ class QAPairGenerator(BaseModel):
             temperature (float, optional): The temperature parameter for controlling
                 the randomness of the output. Defaults to 1.0.
             question_type (str, optional): The type of questions to generate.
-                Defaults to "comprehension".
+                Defaults to "dense".
             num_questions (int, optional): The number of questions to generate.
                 Defaults to 5.
 
@@ -151,11 +151,7 @@ class QAPairGenerator(BaseModel):
 
         metadata = {}
         metadata["finish_reason"] = response.choices[0].finish_reason
-        metadata["usage"] = {
-            "completed_tokens": response.usage.completion_tokens,
-            "prompt_tokens": response.usage.prompt_tokens,
-            "total_tokens": response.usage.total_tokens,
-        }
+        metadata["usage"] = response.usage.model_dump()
 
         return output, metadata  # type: ignore[return-value]
 

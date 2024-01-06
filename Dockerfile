@@ -4,13 +4,22 @@ FROM python:3.10
 # Set the working directory inside the container
 WORKDIR /code
 
-# Copy marker and install it (following its README)
+# Setup for marker (following its README)
+RUN wget https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs10012/ghostscript-10.01.2.tar.gz && \
+    tar -xvf ghostscript-10.01.2.tar.gz && \
+    cd ghostscript-10.01.2 && \
+    ./configure && \
+    make install && \
+    cd .. && \
+    rm -rf ghostscript-10.01.2 && \
+    rm ghostscript-10.01.2.tar.gz
+
+RUN apt-get update && \
+    apt-get install -y tesseract-ocr libtesseract-dev libmagic1 ocrmypdf
+
+# Copy marker and install it
 COPY ./marker /code/marker
 WORKDIR /code/marker
-RUN chmod +x ./scripts/install/ghostscript_install.sh && \
-    ./scripts/install/ghostscript_install.sh
-RUN apt-get update && \
-    cat ./scripts/install/apt-requirements.txt | xargs apt-get install -y
 RUN pip install .
 
 # Back to main working directory

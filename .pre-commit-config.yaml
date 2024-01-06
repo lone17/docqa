@@ -56,7 +56,7 @@ repos:
             "--ignore-missing-imports",
             "--new-type-inference",
           ]
-        exclude: "^templates/"
+        exclude: "^test"
   - repo: https://github.com/codespell-project/codespell
     rev: v2.2.4
     hooks:

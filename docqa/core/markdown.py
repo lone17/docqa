@@ -165,6 +165,7 @@ def pdf_to_markdown(
     output_file: Path,
     max_pages: int | None = None,
     parallel_factor: int = 1,
+    cache_dir: Path = Path(".cache/pdf_to_markdown/"),
 ) -> str:
     """
     Converts a PDF file to Markdown format and saves the result to an output file.
@@ -177,6 +178,7 @@ def pdf_to_markdown(
             Defaults to None.
         parallel_factor (int, optional): The number of parallel processes to use for
             conversion. Defaults to 1.
+        cache_dir (Path, optional): The directory to use for caching the conversion
 
     Returns:
         str: The converted Markdown text.
@@ -186,6 +188,7 @@ def pdf_to_markdown(
         model_lst=load_all_models(),
         max_pages=max_pages,
         parallel_factor=parallel_factor,
+        cache_dir=cache_dir,
     )
 
     if output_file is not None:
