@@ -51,7 +51,7 @@ This repo contains a demo for the whole pipeline for a QA chatbot on Generative 
 information
 in [this paper](<https://github.com/lone17/docqa/tree/main/docqa/demo/data/generative_agent/generative_agent%20(1).pdf>).
 
-![](https://github.com/lone17/docqa/tree/main/docqa/docs/assets/image.png)
+![](https://github.com/lone17/docqa/blob/main/docs/assets/image.png)
 
 ### From source
 
@@ -92,7 +92,7 @@ streamlit run frontend.py
 ### From Docker
 
 Alternatively, you can get the image from Docker Hub
-[here](tps://hub.docker.com/repository/docker/el117/docqa/general).
+[here](https://hub.docker.com/repository/docker/el117/docqa/general).
 
 ```bash
 docker pull el117/docqa
@@ -110,7 +110,7 @@ streamlit run frontend.py
 
 ### Data pipeline
 
-The diagram blow describes the data cycle. Result from each steps can be found at [docqa/demo/data](https://github.com/lone17/docqa/tree/main/docqa/tree/main/demo/data).
+The diagram blow describes the data cycle. Result from each steps can be found at [docqa/demo/data/generative_agent](https://github.com/lone17/docqa/tree/main/docqa/demo/data/generative_agent).
 
 ```mermaid
 flowchart TB
