@@ -206,14 +206,16 @@ class AnswerGenerator(BaseModel):
 
         Returns:
             Tuple[str, dict]: A tuple containing the generated answer and metadata.
-                - answer (str): The generated answer as a string.
-                - metadata (dict): Additional metadata about the response.
-                    - finish_reason (str): The reason why the completion finished.
-                    - usage (dict): Usage statistics of the completion.
-                        - completed_tokens (int): The number of tokens used for
-                            completion.
-                        - prompt_tokens (int): The number of tokens used for the prompt.
-                        - total_tokens (int): The total number of tokens used.
+
+        Output dict structure:
+            - answer (str): The generated answer as a string.
+            - metadata (dict): Additional metadata about the response.
+                - finish_reason (str): The reason why the completion finished.
+                - usage (dict): Usage statistics of the completion.
+                    - completed_tokens (int): The number of tokens used for
+                        completion.
+                    - prompt_tokens (int): The number of tokens used for the prompt.
+                    - total_tokens (int): The total number of tokens used.
         """
         messages = [
             {"role": "system", "content": self.system_message},

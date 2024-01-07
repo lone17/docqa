@@ -127,12 +127,14 @@ class Pipeline(BaseModel):
 
         Returns:
             dict: A dictionary containing the answer, references, and metadata.
-                - answer (str): The answer to the question.
-                - references (list): A list of dictionaries containing the related
-                    references.
-                    - source (str): The source of the reference.
-                    - content (str): The content of the reference.
-                - metadata (dict): Additional metadata associated with the answer.
+
+        Output dict format:
+            - answer (str): The answer to the question.
+            - references (list): A list of dictionaries containing the related
+                references.
+                - source (str): The source of the reference.
+                - content (str): The content of the reference.
+            - metadata (dict): Additional metadata associated with the answer.
         """
         similar_questions = self.retriever.process(
             question, top_k=1, metadata_filter={"type": "question"}

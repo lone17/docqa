@@ -63,7 +63,10 @@ class MarkdownTidier(BaseModel):
                 and token usage.
 
         Example:
+            ```python
             >>> process("Hello, how are you?")
+            ```
+            ```shel
             (
                 'I am fine, thank you!',
                 {
@@ -75,6 +78,7 @@ class MarkdownTidier(BaseModel):
                     }
                 }
             )
+            ```
         """
         messages = [
             {"role": "system", "content": self.system_message},
@@ -108,14 +112,14 @@ def find_highest_markdown_heading_level(lines: list[str]) -> int | None:
     Finds the highest level of heading and returns it as an integer.
     Returns None if the text contains no headings.
 
-    source: https://github.com/nestordemeure/question_extractor/blob/main/
-            question_extractor/markdown.py
+    Source:
+        https://github.com/nestordemeure/question_extractor/blob/main/question_extractor/markdown.py
 
     Args:
         lines (list of str): A list of lines in the markdown file.
 
     Returns:
-        int or None: The highest heading level as an integer, or None if no headings
+        int | None: The highest heading level as an integer, or None if no headings
             are found.
     """
     highest_heading_level = None
