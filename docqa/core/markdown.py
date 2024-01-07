@@ -3,11 +3,10 @@ from pathlib import Path
 
 import editdistance
 import tiktoken
-from openai import OpenAI
-from pydantic import BaseModel, computed_field
-
 from marker.convert import convert_single_pdf
 from marker.models import load_all_models
+from openai import OpenAI
+from pydantic import BaseModel, computed_field
 
 
 class MarkdownTidier(BaseModel):
