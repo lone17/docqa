@@ -62,14 +62,13 @@ def generate_docs_for_src_code(
 
         with mkdocs_gen_files.open(full_doc_path, "w") as f:
             f.write(f"::: {identifier}")
-        print(identifier, doc_path, full_doc_path)
 
         # this method works in docs folder
         mkdocs_gen_files.set_edit_path(
             full_doc_path, Path("..") / path.relative_to(code_dir.parent)
         )
 
-    with mkdocs_gen_files.open(f"{target_doc_folder}/NAV.md", "w") as nav_file:
+    with mkdocs_gen_files.open(f"{target_doc_folder}/index.md", "w") as nav_file:
         nav_file.writelines(nav.build_literate_nav())
 
 
