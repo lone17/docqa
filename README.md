@@ -53,6 +53,8 @@ This repo contains a demo for the whole pipeline for a QA chatbot on Generative 
 information
 in [this paper](<docqa/demo/data/generative_agent/generative_agent%20(1).pdf>).
 
+![](assets/image.png)
+
 ### From source
 
 Before playing with the demo, please populate your key and secrets in the `.env` file:
@@ -77,10 +79,16 @@ All the scripts for the full pipeline as well as generated artifacts are in the 
   - Also includes Wandb logging.
 - `pipeline.py`: Declares the QA pipeline with semantic retrieval using ChromaDB.
 
-The `main.py` script is the endpoint for running the app:
+The `main.py` script is the endpoint for running the backend app:
 
 ```bash
 python main.py
+```
+
+And to run the front end:
+
+```bash
+streamlit run frontend.py
 ```
 
 ### From Docker
@@ -91,6 +99,13 @@ Alternatively, you can get the image from Docker Hub
 ```bash
 docker pull el117/docqa
 docker run --rm -p 8000:8000 -e OPENAI_API_KEY=<...> el117/docqa
+```
+
+Note that the docker does not contain the front end. To run it you can simply do:
+
+```bash
+pip install streamlit
+streamlit run frontend.py
 ```
 
 ## Architecture
