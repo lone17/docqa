@@ -12,3 +12,4 @@ docqa/demo/wandb/
 *build/
 *__pycache__/
 .env
+site/

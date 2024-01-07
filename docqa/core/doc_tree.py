@@ -18,28 +18,29 @@ def build_doc_tree_from_markdown(
     Finds the highest level of heading and splits the text into sections accordingly.
     Returns a list of tuples, each containing the section title and section content.
 
+    ```python
+    {
+        "heading": "Section 1",
+        "text": "Section 1 opening text",
+        "child_sections": [
+            {
+                "heading": "Section 1.1",
+                "text": "Section 1.1 opening text",
+                "child_sections": [
+                    ...
+                ]
+            },
+            ...
+        ]
+    }
+    ```
+
     Args:
         text (str): The content of a markdown file as a single string.
 
     Returns:
-        dict: A dictionary containing the tree structure of the markdown file. Each
-            section is represented as a dictionary with the following keys:
-            ```
-            {
-                "heading": "Section 1",
-                "text": "Section 1 opening text",
-                "child_sections": [
-                    {
-                        "heading": "Section 1.1",
-                        "text": "Section 1.1 opening text",
-                        "child_sections": [
-                            ...
-                        ]
-                    },
-                    ...
-                ]
-            }
-            ```
+        dict: A dictionary containing the tree structure of the markdown file.
+
     """
     lines = text.strip().split("\n")
 

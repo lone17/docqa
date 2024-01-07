@@ -15,7 +15,7 @@ chatbot.
 - Get the source code
 
   ```bash
-  # clone the repo (with a the lone17/marker fork as a submodule)
+  # clone the repo (with a submodule)
   git clone --recurse-submodules https://github.com/lone17/docqa.git
   cd docqa
   ```
@@ -45,15 +45,13 @@ chatbot.
   pip install -e .[dev]
   ```
 
-# Demo
-
-## Usage
+## Try the Demo
 
 This repo contains a demo for the whole pipeline for a QA chatbot on Generative Agents based on the
 information
-in [this paper](<docqa/demo/data/generative_agent/generative_agent%20(1).pdf>).
+in [this paper](<https://github.com/lone17/docqa/tree/main/docqa/demo/data/generative_agent/generative_agent%20(1).pdf>).
 
-![](assets/image.png)
+![](https://github.com/lone17/docqa/tree/main/docqa/docs/assets/image.png)
 
 ### From source
 
@@ -112,7 +110,7 @@ streamlit run frontend.py
 
 ### Data pipeline
 
-The diagram blow describes the data cycle. Result from each steps can be found at [docqa/demo/data](docqa/demo/data).
+The diagram blow describes the data cycle. Result from each steps can be found at [docqa/demo/data](https://github.com/lone17/docqa/tree/main/docqa/tree/main/demo/data).
 
 ```mermaid
 flowchart TB
@@ -139,7 +137,7 @@ flowchart TB
         chunks-qa --> vector-store
 ```
 
-## App
+### App
 
 The diagram below describe the app's internal working, from receiving a question to answering it.
 
