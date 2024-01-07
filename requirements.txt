@@ -10,3 +10,4 @@ editdistance
 tiktoken
 pydantic
 numpy
+streamlit
