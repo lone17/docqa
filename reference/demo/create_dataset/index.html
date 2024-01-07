@@ -998,29 +998,136 @@
   <div class="doc doc-contents ">
   
       <p>Generate a dataset for OpenAI based on the given sections QA data.</p>
-      <ul>
-<li>sections_qa_data_flatten (dict): A dictionary containing the flattened sections
-    QA data.</li>
-<li>section_type (Literal["main", "summary", "metadata", "extra"], optional): The
-    type of section to include in the dataset. Defaults to "main".</li>
-<li>question_type (Literal["dense", "sparse"], optional): The type of question to
-    include in the dataset. Defaults to "dense".</li>
-<li>answer_type (Literal["long", "short"], optional): The type of answer to include
-    in the dataset. Defaults to "long".</li>
-<li>prompt_type (Literal["instruction", "simple"], optional): The type of prompt to
-    use in the dataset. Defaults to "instruction".</li>
-</ul>
-<p>Returns:
-- list[dict]: The generated dataset for OpenAI.</p>
-<p>Note:
-- The dataset is generated based on the specified parameters.
-- Only sections that exist in the sections QA data will be included in the dataset.
-- For each section, the questions and answers are extracted based on the question
-    type and answer type.
-- Depending on the prompt type, different sample generation functions are used to
-    create the samples.
-- The dataset is a list of dictionaries, where each dictionary represents a sample.</p>
 
+
+
+  <p><strong>Parameters:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>sections_qa_data_flatten</code></td>
+          <td>
+                <code>dict</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>A dictionary containing the flattened sections
+QA data.</p>
+            </div>
+          </td>
+          <td>
+              <em>required</em>
+          </td>
+        </tr>
+        <tr>
+          <td><code>section_type</code></td>
+          <td>
+                <code><span title="typing.Literal">Literal</span>[&#39;main&#39;, &#39;summary&#39;, &#39;metadata&#39;, &#39;extra&#39;]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>The
+type of section to include in the dataset. Defaults to "main".</p>
+            </div>
+          </td>
+          <td>
+                <code>&#39;main&#39;</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>question_type</code></td>
+          <td>
+                <code><span title="typing.Literal">Literal</span>[&#39;dense&#39;, &#39;sparse&#39;]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>The type of question to
+include in the dataset. Defaults to "dense".</p>
+            </div>
+          </td>
+          <td>
+                <code>&#39;dense&#39;</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>answer_type</code></td>
+          <td>
+                <code><span title="typing.Literal">Literal</span>[&#39;long&#39;, &#39;short&#39;]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>The type of answer to include
+in the dataset. Defaults to "long".</p>
+            </div>
+          </td>
+          <td>
+                <code>&#39;long&#39;</code>
+          </td>
+        </tr>
+        <tr>
+          <td><code>prompt_type</code></td>
+          <td>
+                <code><span title="typing.Literal">Literal</span>[&#39;instruction&#39;, &#39;simple&#39;]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>The type of prompt to
+use in the dataset. Defaults to "instruction".</p>
+            </div>
+          </td>
+          <td>
+                <code>&#39;instruction&#39;</code>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <p><strong>Returns:</strong></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+                <code>list[dict]</code>
+          </td>
+          <td>
+            <div class="doc-md-description">
+              <p>list[dict]: The generated dataset for OpenAI.</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+<details class="note" open>
+  <summary>Note</summary>
+  <ul>
+<li>The dataset is generated based on the specified parameters.</li>
+<li>Only sections that exist in the sections QA data will be included in the
+dataset.</li>
+<li>For each section, the questions and answers are extracted based on the
+question type and answer type.</li>
+<li>Depending on the prompt type, different sample generation functions are used
+to create the samples.</li>
+<li>The dataset is a list of dictionaries, where each dictionary represents a
+sample.</li>
+</ul>
+</details>
           <details class="quote">
             <summary>Source code in <code>docqa/demo/create_dataset.py</code></summary>
             <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-22">22</a></span>
@@ -1080,7 +1187,8 @@
 <span class="normal"><a href="#__codelineno-0-76">76</a></span>
 <span class="normal"><a href="#__codelineno-0-77">77</a></span>
 <span class="normal"><a href="#__codelineno-0-78">78</a></span>
-<span class="normal"><a href="#__codelineno-0-79">79</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22"></a><span class="k">def</span> <span class="nf">create_openai_dataset</span><span class="p">(</span>
+<span class="normal"><a href="#__codelineno-0-79">79</a></span>
+<span class="normal"><a href="#__codelineno-0-80">80</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22"></a><span class="k">def</span> <span class="nf">create_openai_dataset</span><span class="p">(</span>
 </span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23"></a>    <span class="n">sections_qa_data_flatten</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
 </span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24"></a>    <span class="n">section_type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span>
 </span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25"></a>        <span class="s2">&quot;main&quot;</span><span class="p">,</span> <span class="s2">&quot;summary&quot;</span><span class="p">,</span> <span class="s2">&quot;metadata&quot;</span><span class="p">,</span> <span class="s2">&quot;extra&quot;</span>
@@ -1093,51 +1201,52 @@
 </span><span id="__span-0-32"><a id="__codelineno-0-32" name="__codelineno-0-32"></a><span class="sd">    Generate a dataset for OpenAI based on the given sections QA data.</span>
 </span><span id="__span-0-33"><a id="__codelineno-0-33" name="__codelineno-0-33"></a>
 </span><span id="__span-0-34"><a id="__codelineno-0-34" name="__codelineno-0-34"></a><span class="sd">    Parameters:</span>
-</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35"></a><span class="sd">    - sections_qa_data_flatten (dict): A dictionary containing the flattened sections</span>
-</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a><span class="sd">        QA data.</span>
-</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a><span class="sd">    - section_type (Literal[&quot;main&quot;, &quot;summary&quot;, &quot;metadata&quot;, &quot;extra&quot;], optional): The</span>
-</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38"></a><span class="sd">        type of section to include in the dataset. Defaults to &quot;main&quot;.</span>
-</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39"></a><span class="sd">    - question_type (Literal[&quot;dense&quot;, &quot;sparse&quot;], optional): The type of question to</span>
-</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40"></a><span class="sd">        include in the dataset. Defaults to &quot;dense&quot;.</span>
-</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41"></a><span class="sd">    - answer_type (Literal[&quot;long&quot;, &quot;short&quot;], optional): The type of answer to include</span>
-</span><span id="__span-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42"></a><span class="sd">        in the dataset. Defaults to &quot;long&quot;.</span>
-</span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43"></a><span class="sd">    - prompt_type (Literal[&quot;instruction&quot;, &quot;simple&quot;], optional): The type of prompt to</span>
-</span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44"></a><span class="sd">        use in the dataset. Defaults to &quot;instruction&quot;.</span>
+</span><span id="__span-0-35"><a id="__codelineno-0-35" name="__codelineno-0-35"></a><span class="sd">        sections_qa_data_flatten (dict): A dictionary containing the flattened sections</span>
+</span><span id="__span-0-36"><a id="__codelineno-0-36" name="__codelineno-0-36"></a><span class="sd">            QA data.</span>
+</span><span id="__span-0-37"><a id="__codelineno-0-37" name="__codelineno-0-37"></a><span class="sd">        section_type (Literal[&quot;main&quot;, &quot;summary&quot;, &quot;metadata&quot;, &quot;extra&quot;], optional): The</span>
+</span><span id="__span-0-38"><a id="__codelineno-0-38" name="__codelineno-0-38"></a><span class="sd">            type of section to include in the dataset. Defaults to &quot;main&quot;.</span>
+</span><span id="__span-0-39"><a id="__codelineno-0-39" name="__codelineno-0-39"></a><span class="sd">        question_type (Literal[&quot;dense&quot;, &quot;sparse&quot;], optional): The type of question to</span>
+</span><span id="__span-0-40"><a id="__codelineno-0-40" name="__codelineno-0-40"></a><span class="sd">            include in the dataset. Defaults to &quot;dense&quot;.</span>
+</span><span id="__span-0-41"><a id="__codelineno-0-41" name="__codelineno-0-41"></a><span class="sd">        answer_type (Literal[&quot;long&quot;, &quot;short&quot;], optional): The type of answer to include</span>
+</span><span id="__span-0-42"><a id="__codelineno-0-42" name="__codelineno-0-42"></a><span class="sd">            in the dataset. Defaults to &quot;long&quot;.</span>
+</span><span id="__span-0-43"><a id="__codelineno-0-43" name="__codelineno-0-43"></a><span class="sd">        prompt_type (Literal[&quot;instruction&quot;, &quot;simple&quot;], optional): The type of prompt to</span>
+</span><span id="__span-0-44"><a id="__codelineno-0-44" name="__codelineno-0-44"></a><span class="sd">            use in the dataset. Defaults to &quot;instruction&quot;.</span>
 </span><span id="__span-0-45"><a id="__codelineno-0-45" name="__codelineno-0-45"></a>
 </span><span id="__span-0-46"><a id="__codelineno-0-46" name="__codelineno-0-46"></a><span class="sd">    Returns:</span>
-</span><span id="__span-0-47"><a id="__codelineno-0-47" name="__codelineno-0-47"></a><span class="sd">    - list[dict]: The generated dataset for OpenAI.</span>
+</span><span id="__span-0-47"><a id="__codelineno-0-47" name="__codelineno-0-47"></a><span class="sd">        list[dict]: The generated dataset for OpenAI.</span>
 </span><span id="__span-0-48"><a id="__codelineno-0-48" name="__codelineno-0-48"></a>
 </span><span id="__span-0-49"><a id="__codelineno-0-49" name="__codelineno-0-49"></a><span class="sd">    Note:</span>
-</span><span id="__span-0-50"><a id="__codelineno-0-50" name="__codelineno-0-50"></a><span class="sd">    - The dataset is generated based on the specified parameters.</span>
-</span><span id="__span-0-51"><a id="__codelineno-0-51" name="__codelineno-0-51"></a><span class="sd">    - Only sections that exist in the sections QA data will be included in the dataset.</span>
-</span><span id="__span-0-52"><a id="__codelineno-0-52" name="__codelineno-0-52"></a><span class="sd">    - For each section, the questions and answers are extracted based on the question</span>
-</span><span id="__span-0-53"><a id="__codelineno-0-53" name="__codelineno-0-53"></a><span class="sd">        type and answer type.</span>
-</span><span id="__span-0-54"><a id="__codelineno-0-54" name="__codelineno-0-54"></a><span class="sd">    - Depending on the prompt type, different sample generation functions are used to</span>
-</span><span id="__span-0-55"><a id="__codelineno-0-55" name="__codelineno-0-55"></a><span class="sd">        create the samples.</span>
-</span><span id="__span-0-56"><a id="__codelineno-0-56" name="__codelineno-0-56"></a><span class="sd">    - The dataset is a list of dictionaries, where each dictionary represents a sample.</span>
-</span><span id="__span-0-57"><a id="__codelineno-0-57" name="__codelineno-0-57"></a>
-</span><span id="__span-0-58"><a id="__codelineno-0-58" name="__codelineno-0-58"></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="__span-0-59"><a id="__codelineno-0-59" name="__codelineno-0-59"></a>    <span class="n">dataset</span> <span class="o">=</span> <span class="p">[]</span>
-</span><span id="__span-0-60"><a id="__codelineno-0-60" name="__codelineno-0-60"></a>    <span class="k">for</span> <span class="n">heading</span> <span class="ow">in</span> <span class="n">SECTIONS</span><span class="p">[</span><span class="n">section_type</span><span class="p">]:</span>
-</span><span id="__span-0-61"><a id="__codelineno-0-61" name="__codelineno-0-61"></a>        <span class="k">if</span> <span class="n">heading</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sections_qa_data_flatten</span><span class="p">:</span>
-</span><span id="__span-0-62"><a id="__codelineno-0-62" name="__codelineno-0-62"></a>            <span class="k">continue</span>
-</span><span id="__span-0-63"><a id="__codelineno-0-63" name="__codelineno-0-63"></a>        <span class="n">section</span> <span class="o">=</span> <span class="n">sections_qa_data_flatten</span><span class="p">[</span><span class="n">heading</span><span class="p">]</span>
-</span><span id="__span-0-64"><a id="__codelineno-0-64" name="__codelineno-0-64"></a>        <span class="n">qa_list</span> <span class="o">=</span> <span class="n">section</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">question_type</span><span class="si">}</span><span class="s2">_questions&quot;</span><span class="p">]</span>
-</span><span id="__span-0-65"><a id="__codelineno-0-65" name="__codelineno-0-65"></a>        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">qa_list</span><span class="p">:</span>
-</span><span id="__span-0-66"><a id="__codelineno-0-66" name="__codelineno-0-66"></a>            <span class="n">question</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="s2">&quot;question&quot;</span><span class="p">]</span>
-</span><span id="__span-0-67"><a id="__codelineno-0-67" name="__codelineno-0-67"></a>            <span class="n">answer</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="s2">&quot;answer&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="n">answer_type</span> <span class="o">==</span> <span class="s2">&quot;short&quot;</span> <span class="k">else</span> <span class="n">item</span><span class="p">[</span><span class="s2">&quot;long_answer&quot;</span><span class="p">]</span>
-</span><span id="__span-0-68"><a id="__codelineno-0-68" name="__codelineno-0-68"></a>            <span class="k">if</span> <span class="n">prompt_type</span> <span class="o">==</span> <span class="s2">&quot;simple&quot;</span><span class="p">:</span>
-</span><span id="__span-0-69"><a id="__codelineno-0-69" name="__codelineno-0-69"></a>                <span class="n">sample</span> <span class="o">=</span> <span class="n">make_simple_sample_for_openai</span><span class="p">(</span><span class="n">question</span><span class="p">,</span> <span class="n">answer</span><span class="p">)</span>
-</span><span id="__span-0-70"><a id="__codelineno-0-70" name="__codelineno-0-70"></a>            <span class="k">elif</span> <span class="n">prompt_type</span> <span class="o">==</span> <span class="s2">&quot;instruction&quot;</span><span class="p">:</span>
-</span><span id="__span-0-71"><a id="__codelineno-0-71" name="__codelineno-0-71"></a>                <span class="n">reference</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;[source: </span><span class="si">{</span><span class="n">heading</span><span class="si">}</span><span class="s2">]</span><span class="se">\n</span><span class="si">{</span><span class="n">section</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
-</span><span id="__span-0-72"><a id="__codelineno-0-72" name="__codelineno-0-72"></a>                <span class="n">sample</span> <span class="o">=</span> <span class="n">make_instruction_sample_for_openai</span><span class="p">(</span>
-</span><span id="__span-0-73"><a id="__codelineno-0-73" name="__codelineno-0-73"></a>                    <span class="n">question</span><span class="o">=</span><span class="n">question</span><span class="p">,</span>
-</span><span id="__span-0-74"><a id="__codelineno-0-74" name="__codelineno-0-74"></a>                    <span class="n">answer</span><span class="o">=</span><span class="n">answer</span><span class="p">,</span>
-</span><span id="__span-0-75"><a id="__codelineno-0-75" name="__codelineno-0-75"></a>                    <span class="n">references</span><span class="o">=</span><span class="p">[</span><span class="n">reference</span><span class="p">],</span>
-</span><span id="__span-0-76"><a id="__codelineno-0-76" name="__codelineno-0-76"></a>                <span class="p">)</span>
-</span><span id="__span-0-77"><a id="__codelineno-0-77" name="__codelineno-0-77"></a>            <span class="n">dataset</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
-</span><span id="__span-0-78"><a id="__codelineno-0-78" name="__codelineno-0-78"></a>
-</span><span id="__span-0-79"><a id="__codelineno-0-79" name="__codelineno-0-79"></a>    <span class="k">return</span> <span class="n">dataset</span>
+</span><span id="__span-0-50"><a id="__codelineno-0-50" name="__codelineno-0-50"></a><span class="sd">        - The dataset is generated based on the specified parameters.</span>
+</span><span id="__span-0-51"><a id="__codelineno-0-51" name="__codelineno-0-51"></a><span class="sd">        - Only sections that exist in the sections QA data will be included in the</span>
+</span><span id="__span-0-52"><a id="__codelineno-0-52" name="__codelineno-0-52"></a><span class="sd">        dataset.</span>
+</span><span id="__span-0-53"><a id="__codelineno-0-53" name="__codelineno-0-53"></a><span class="sd">        - For each section, the questions and answers are extracted based on the</span>
+</span><span id="__span-0-54"><a id="__codelineno-0-54" name="__codelineno-0-54"></a><span class="sd">        question type and answer type.</span>
+</span><span id="__span-0-55"><a id="__codelineno-0-55" name="__codelineno-0-55"></a><span class="sd">        - Depending on the prompt type, different sample generation functions are used</span>
+</span><span id="__span-0-56"><a id="__codelineno-0-56" name="__codelineno-0-56"></a><span class="sd">        to create the samples.</span>
+</span><span id="__span-0-57"><a id="__codelineno-0-57" name="__codelineno-0-57"></a><span class="sd">        - The dataset is a list of dictionaries, where each dictionary represents a</span>
+</span><span id="__span-0-58"><a id="__codelineno-0-58" name="__codelineno-0-58"></a><span class="sd">        sample.</span>
+</span><span id="__span-0-59"><a id="__codelineno-0-59" name="__codelineno-0-59"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-0-60"><a id="__codelineno-0-60" name="__codelineno-0-60"></a>    <span class="n">dataset</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span id="__span-0-61"><a id="__codelineno-0-61" name="__codelineno-0-61"></a>    <span class="k">for</span> <span class="n">heading</span> <span class="ow">in</span> <span class="n">SECTIONS</span><span class="p">[</span><span class="n">section_type</span><span class="p">]:</span>
+</span><span id="__span-0-62"><a id="__codelineno-0-62" name="__codelineno-0-62"></a>        <span class="k">if</span> <span class="n">heading</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sections_qa_data_flatten</span><span class="p">:</span>
+</span><span id="__span-0-63"><a id="__codelineno-0-63" name="__codelineno-0-63"></a>            <span class="k">continue</span>
+</span><span id="__span-0-64"><a id="__codelineno-0-64" name="__codelineno-0-64"></a>        <span class="n">section</span> <span class="o">=</span> <span class="n">sections_qa_data_flatten</span><span class="p">[</span><span class="n">heading</span><span class="p">]</span>
+</span><span id="__span-0-65"><a id="__codelineno-0-65" name="__codelineno-0-65"></a>        <span class="n">qa_list</span> <span class="o">=</span> <span class="n">section</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">question_type</span><span class="si">}</span><span class="s2">_questions&quot;</span><span class="p">]</span>
+</span><span id="__span-0-66"><a id="__codelineno-0-66" name="__codelineno-0-66"></a>        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">qa_list</span><span class="p">:</span>
+</span><span id="__span-0-67"><a id="__codelineno-0-67" name="__codelineno-0-67"></a>            <span class="n">question</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="s2">&quot;question&quot;</span><span class="p">]</span>
+</span><span id="__span-0-68"><a id="__codelineno-0-68" name="__codelineno-0-68"></a>            <span class="n">answer</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="s2">&quot;answer&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="n">answer_type</span> <span class="o">==</span> <span class="s2">&quot;short&quot;</span> <span class="k">else</span> <span class="n">item</span><span class="p">[</span><span class="s2">&quot;long_answer&quot;</span><span class="p">]</span>
+</span><span id="__span-0-69"><a id="__codelineno-0-69" name="__codelineno-0-69"></a>            <span class="k">if</span> <span class="n">prompt_type</span> <span class="o">==</span> <span class="s2">&quot;simple&quot;</span><span class="p">:</span>
+</span><span id="__span-0-70"><a id="__codelineno-0-70" name="__codelineno-0-70"></a>                <span class="n">sample</span> <span class="o">=</span> <span class="n">make_simple_sample_for_openai</span><span class="p">(</span><span class="n">question</span><span class="p">,</span> <span class="n">answer</span><span class="p">)</span>
+</span><span id="__span-0-71"><a id="__codelineno-0-71" name="__codelineno-0-71"></a>            <span class="k">elif</span> <span class="n">prompt_type</span> <span class="o">==</span> <span class="s2">&quot;instruction&quot;</span><span class="p">:</span>
+</span><span id="__span-0-72"><a id="__codelineno-0-72" name="__codelineno-0-72"></a>                <span class="n">reference</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;[source: </span><span class="si">{</span><span class="n">heading</span><span class="si">}</span><span class="s2">]</span><span class="se">\n</span><span class="si">{</span><span class="n">section</span><span class="p">[</span><span class="s1">&#39;text&#39;</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+</span><span id="__span-0-73"><a id="__codelineno-0-73" name="__codelineno-0-73"></a>                <span class="n">sample</span> <span class="o">=</span> <span class="n">make_instruction_sample_for_openai</span><span class="p">(</span>
+</span><span id="__span-0-74"><a id="__codelineno-0-74" name="__codelineno-0-74"></a>                    <span class="n">question</span><span class="o">=</span><span class="n">question</span><span class="p">,</span>
+</span><span id="__span-0-75"><a id="__codelineno-0-75" name="__codelineno-0-75"></a>                    <span class="n">answer</span><span class="o">=</span><span class="n">answer</span><span class="p">,</span>
+</span><span id="__span-0-76"><a id="__codelineno-0-76" name="__codelineno-0-76"></a>                    <span class="n">references</span><span class="o">=</span><span class="p">[</span><span class="n">reference</span><span class="p">],</span>
+</span><span id="__span-0-77"><a id="__codelineno-0-77" name="__codelineno-0-77"></a>                <span class="p">)</span>
+</span><span id="__span-0-78"><a id="__codelineno-0-78" name="__codelineno-0-78"></a>            <span class="n">dataset</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sample</span><span class="p">)</span>
+</span><span id="__span-0-79"><a id="__codelineno-0-79" name="__codelineno-0-79"></a>
+</span><span id="__span-0-80"><a id="__codelineno-0-80" name="__codelineno-0-80"></a>    <span class="k">return</span> <span class="n">dataset</span>
 </span></code></pre></div></td></tr></table></div>
           </details>
   </div>
@@ -1232,8 +1341,7 @@
 
           <details class="quote">
             <summary>Source code in <code>docqa/demo/create_dataset.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-82"> 82</a></span>
-<span class="normal"><a href="#__codelineno-0-83"> 83</a></span>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-83"> 83</a></span>
 <span class="normal"><a href="#__codelineno-0-84"> 84</a></span>
 <span class="normal"><a href="#__codelineno-0-85"> 85</a></span>
 <span class="normal"><a href="#__codelineno-0-86"> 86</a></span>
@@ -1268,43 +1376,44 @@
 <span class="normal"><a href="#__codelineno-0-115">115</a></span>
 <span class="normal"><a href="#__codelineno-0-116">116</a></span>
 <span class="normal"><a href="#__codelineno-0-117">117</a></span>
-<span class="normal"><a href="#__codelineno-0-118">118</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-82"><a id="__codelineno-0-82" name="__codelineno-0-82"></a><span class="k">def</span> <span class="nf">pdf_to_qa_data</span><span class="p">(</span><span class="n">output_dir</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">pdf_file</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-</span><span id="__span-0-83"><a id="__codelineno-0-83" name="__codelineno-0-83"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-</span><span id="__span-0-84"><a id="__codelineno-0-84" name="__codelineno-0-84"></a><span class="sd">    Generates a QA data dictionary from a PDF file.</span>
-</span><span id="__span-0-85"><a id="__codelineno-0-85" name="__codelineno-0-85"></a>
-</span><span id="__span-0-86"><a id="__codelineno-0-86" name="__codelineno-0-86"></a><span class="sd">    Args:</span>
-</span><span id="__span-0-87"><a id="__codelineno-0-87" name="__codelineno-0-87"></a><span class="sd">        output_dir (Path): The directory where the output files will be saved.</span>
-</span><span id="__span-0-88"><a id="__codelineno-0-88" name="__codelineno-0-88"></a><span class="sd">        pdf_file (Path): The path to the PDF file.</span>
-</span><span id="__span-0-89"><a id="__codelineno-0-89" name="__codelineno-0-89"></a>
-</span><span id="__span-0-90"><a id="__codelineno-0-90" name="__codelineno-0-90"></a><span class="sd">    Returns:</span>
-</span><span id="__span-0-91"><a id="__codelineno-0-91" name="__codelineno-0-91"></a><span class="sd">        dict: The generated QA data dictionary.</span>
-</span><span id="__span-0-92"><a id="__codelineno-0-92" name="__codelineno-0-92"></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="__span-0-93"><a id="__codelineno-0-93" name="__codelineno-0-93"></a>    <span class="n">doc_tree_file</span> <span class="o">=</span> <span class="n">output_dir</span> <span class="o">/</span> <span class="s2">&quot;doc_tree.json&quot;</span>
-</span><span id="__span-0-94"><a id="__codelineno-0-94" name="__codelineno-0-94"></a>
-</span><span id="__span-0-95"><a id="__codelineno-0-95" name="__codelineno-0-95"></a>    <span class="k">if</span> <span class="n">doc_tree_file</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-</span><span id="__span-0-96"><a id="__codelineno-0-96" name="__codelineno-0-96"></a>        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">doc_tree_file</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-</span><span id="__span-0-97"><a id="__codelineno-0-97" name="__codelineno-0-97"></a>            <span class="n">doc_tree</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-</span><span id="__span-0-98"><a id="__codelineno-0-98" name="__codelineno-0-98"></a>    <span class="k">else</span><span class="p">:</span>
-</span><span id="__span-0-99"><a id="__codelineno-0-99" name="__codelineno-0-99"></a>        <span class="n">doc_tree</span> <span class="o">=</span> <span class="n">build_doc_tree_from_pdf</span><span class="p">(</span><span class="n">pdf_file</span><span class="p">,</span> <span class="n">output_dir</span><span class="o">=</span><span class="n">output_dir</span><span class="p">)</span>
-</span><span id="__span-0-100"><a id="__codelineno-0-100" name="__codelineno-0-100"></a>
-</span><span id="__span-0-101"><a id="__codelineno-0-101" name="__codelineno-0-101"></a>    <span class="n">top_sections_qa_data</span> <span class="o">=</span> <span class="n">generate_top_sections_questions</span><span class="p">(</span>
-</span><span id="__span-0-102"><a id="__codelineno-0-102" name="__codelineno-0-102"></a>        <span class="n">doc_tree</span><span class="p">,</span>
-</span><span id="__span-0-103"><a id="__codelineno-0-103" name="__codelineno-0-103"></a>        <span class="n">output_file</span><span class="o">=</span><span class="n">output_dir</span> <span class="o">/</span> <span class="s2">&quot;top_sections_qa_data.json&quot;</span><span class="p">,</span>
-</span><span id="__span-0-104"><a id="__codelineno-0-104" name="__codelineno-0-104"></a>        <span class="n">openai_key</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;OPENAI_API_KEY&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
-</span><span id="__span-0-105"><a id="__codelineno-0-105" name="__codelineno-0-105"></a>        <span class="n">openai_model</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;OPENAI_MODEL&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
-</span><span id="__span-0-106"><a id="__codelineno-0-106" name="__codelineno-0-106"></a>        <span class="n">seed</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;SEED&quot;</span><span class="p">,</span> <span class="mi">42</span><span class="p">)),</span>
-</span><span id="__span-0-107"><a id="__codelineno-0-107" name="__codelineno-0-107"></a>        <span class="n">temperature</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
-</span><span id="__span-0-108"><a id="__codelineno-0-108" name="__codelineno-0-108"></a>    <span class="p">)</span>
-</span><span id="__span-0-109"><a id="__codelineno-0-109" name="__codelineno-0-109"></a>    <span class="n">top_sections_qa_data</span> <span class="o">=</span> <span class="n">generate_long_answers_for_sections_questions</span><span class="p">(</span>
-</span><span id="__span-0-110"><a id="__codelineno-0-110" name="__codelineno-0-110"></a>        <span class="n">top_sections_qa_data</span><span class="p">,</span>
-</span><span id="__span-0-111"><a id="__codelineno-0-111" name="__codelineno-0-111"></a>        <span class="n">output_file</span><span class="o">=</span><span class="n">output_dir</span> <span class="o">/</span> <span class="s2">&quot;top_sections_qa_data_long_answers.json&quot;</span><span class="p">,</span>
-</span><span id="__span-0-112"><a id="__codelineno-0-112" name="__codelineno-0-112"></a>        <span class="n">openai_key</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;OPENAI_API_KEY&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
-</span><span id="__span-0-113"><a id="__codelineno-0-113" name="__codelineno-0-113"></a>        <span class="n">openai_model</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;OPENAI_MODEL&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
-</span><span id="__span-0-114"><a id="__codelineno-0-114" name="__codelineno-0-114"></a>        <span class="n">seed</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;SEED&quot;</span><span class="p">,</span> <span class="mi">42</span><span class="p">)),</span>
-</span><span id="__span-0-115"><a id="__codelineno-0-115" name="__codelineno-0-115"></a>        <span class="n">temperature</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
-</span><span id="__span-0-116"><a id="__codelineno-0-116" name="__codelineno-0-116"></a>    <span class="p">)</span>
-</span><span id="__span-0-117"><a id="__codelineno-0-117" name="__codelineno-0-117"></a>
-</span><span id="__span-0-118"><a id="__codelineno-0-118" name="__codelineno-0-118"></a>    <span class="k">return</span> <span class="n">top_sections_qa_data</span>
+<span class="normal"><a href="#__codelineno-0-118">118</a></span>
+<span class="normal"><a href="#__codelineno-0-119">119</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-83"><a id="__codelineno-0-83" name="__codelineno-0-83"></a><span class="k">def</span> <span class="nf">pdf_to_qa_data</span><span class="p">(</span><span class="n">output_dir</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">pdf_file</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+</span><span id="__span-0-84"><a id="__codelineno-0-84" name="__codelineno-0-84"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+</span><span id="__span-0-85"><a id="__codelineno-0-85" name="__codelineno-0-85"></a><span class="sd">    Generates a QA data dictionary from a PDF file.</span>
+</span><span id="__span-0-86"><a id="__codelineno-0-86" name="__codelineno-0-86"></a>
+</span><span id="__span-0-87"><a id="__codelineno-0-87" name="__codelineno-0-87"></a><span class="sd">    Args:</span>
+</span><span id="__span-0-88"><a id="__codelineno-0-88" name="__codelineno-0-88"></a><span class="sd">        output_dir (Path): The directory where the output files will be saved.</span>
+</span><span id="__span-0-89"><a id="__codelineno-0-89" name="__codelineno-0-89"></a><span class="sd">        pdf_file (Path): The path to the PDF file.</span>
+</span><span id="__span-0-90"><a id="__codelineno-0-90" name="__codelineno-0-90"></a>
+</span><span id="__span-0-91"><a id="__codelineno-0-91" name="__codelineno-0-91"></a><span class="sd">    Returns:</span>
+</span><span id="__span-0-92"><a id="__codelineno-0-92" name="__codelineno-0-92"></a><span class="sd">        dict: The generated QA data dictionary.</span>
+</span><span id="__span-0-93"><a id="__codelineno-0-93" name="__codelineno-0-93"></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="__span-0-94"><a id="__codelineno-0-94" name="__codelineno-0-94"></a>    <span class="n">doc_tree_file</span> <span class="o">=</span> <span class="n">output_dir</span> <span class="o">/</span> <span class="s2">&quot;doc_tree.json&quot;</span>
+</span><span id="__span-0-95"><a id="__codelineno-0-95" name="__codelineno-0-95"></a>
+</span><span id="__span-0-96"><a id="__codelineno-0-96" name="__codelineno-0-96"></a>    <span class="k">if</span> <span class="n">doc_tree_file</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+</span><span id="__span-0-97"><a id="__codelineno-0-97" name="__codelineno-0-97"></a>        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">doc_tree_file</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+</span><span id="__span-0-98"><a id="__codelineno-0-98" name="__codelineno-0-98"></a>            <span class="n">doc_tree</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+</span><span id="__span-0-99"><a id="__codelineno-0-99" name="__codelineno-0-99"></a>    <span class="k">else</span><span class="p">:</span>
+</span><span id="__span-0-100"><a id="__codelineno-0-100" name="__codelineno-0-100"></a>        <span class="n">doc_tree</span> <span class="o">=</span> <span class="n">build_doc_tree_from_pdf</span><span class="p">(</span><span class="n">pdf_file</span><span class="p">,</span> <span class="n">output_dir</span><span class="o">=</span><span class="n">output_dir</span><span class="p">)</span>
+</span><span id="__span-0-101"><a id="__codelineno-0-101" name="__codelineno-0-101"></a>
+</span><span id="__span-0-102"><a id="__codelineno-0-102" name="__codelineno-0-102"></a>    <span class="n">top_sections_qa_data</span> <span class="o">=</span> <span class="n">generate_top_sections_questions</span><span class="p">(</span>
+</span><span id="__span-0-103"><a id="__codelineno-0-103" name="__codelineno-0-103"></a>        <span class="n">doc_tree</span><span class="p">,</span>
+</span><span id="__span-0-104"><a id="__codelineno-0-104" name="__codelineno-0-104"></a>        <span class="n">output_file</span><span class="o">=</span><span class="n">output_dir</span> <span class="o">/</span> <span class="s2">&quot;top_sections_qa_data.json&quot;</span><span class="p">,</span>
+</span><span id="__span-0-105"><a id="__codelineno-0-105" name="__codelineno-0-105"></a>        <span class="n">openai_key</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;OPENAI_API_KEY&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
+</span><span id="__span-0-106"><a id="__codelineno-0-106" name="__codelineno-0-106"></a>        <span class="n">openai_model</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;OPENAI_MODEL&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
+</span><span id="__span-0-107"><a id="__codelineno-0-107" name="__codelineno-0-107"></a>        <span class="n">seed</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;SEED&quot;</span><span class="p">,</span> <span class="mi">42</span><span class="p">)),</span>
+</span><span id="__span-0-108"><a id="__codelineno-0-108" name="__codelineno-0-108"></a>        <span class="n">temperature</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+</span><span id="__span-0-109"><a id="__codelineno-0-109" name="__codelineno-0-109"></a>    <span class="p">)</span>
+</span><span id="__span-0-110"><a id="__codelineno-0-110" name="__codelineno-0-110"></a>    <span class="n">top_sections_qa_data</span> <span class="o">=</span> <span class="n">generate_long_answers_for_sections_questions</span><span class="p">(</span>
+</span><span id="__span-0-111"><a id="__codelineno-0-111" name="__codelineno-0-111"></a>        <span class="n">top_sections_qa_data</span><span class="p">,</span>
+</span><span id="__span-0-112"><a id="__codelineno-0-112" name="__codelineno-0-112"></a>        <span class="n">output_file</span><span class="o">=</span><span class="n">output_dir</span> <span class="o">/</span> <span class="s2">&quot;top_sections_qa_data_long_answers.json&quot;</span><span class="p">,</span>
+</span><span id="__span-0-113"><a id="__codelineno-0-113" name="__codelineno-0-113"></a>        <span class="n">openai_key</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;OPENAI_API_KEY&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
+</span><span id="__span-0-114"><a id="__codelineno-0-114" name="__codelineno-0-114"></a>        <span class="n">openai_model</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;OPENAI_MODEL&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
+</span><span id="__span-0-115"><a id="__codelineno-0-115" name="__codelineno-0-115"></a>        <span class="n">seed</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;SEED&quot;</span><span class="p">,</span> <span class="mi">42</span><span class="p">)),</span>
+</span><span id="__span-0-116"><a id="__codelineno-0-116" name="__codelineno-0-116"></a>        <span class="n">temperature</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+</span><span id="__span-0-117"><a id="__codelineno-0-117" name="__codelineno-0-117"></a>    <span class="p">)</span>
+</span><span id="__span-0-118"><a id="__codelineno-0-118" name="__codelineno-0-118"></a>
+</span><span id="__span-0-119"><a id="__codelineno-0-119" name="__codelineno-0-119"></a>    <span class="k">return</span> <span class="n">top_sections_qa_data</span>
 </span></code></pre></div></td></tr></table></div>
           </details>
   </div>
@@ -1340,7 +1449,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-01-07T03:44:21+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-01-07</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-01-07T04:36:14+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-01-07</span>
   </span>
 
     
@@ -1350,7 +1459,7 @@
     <span class="md-icon" title="Created">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3h-2Z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-01-07T03:44:21+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-01-07</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-01-07T04:36:14+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-01-07</span>
   </span>
 
     
