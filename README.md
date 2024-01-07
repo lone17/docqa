@@ -1,5 +1,7 @@
 # DocQA
 
+https://lone17.github.io/docqa/
+
 [![built with Codeium](https://codeium.com/badges/main)](https://codeium.com)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/release/python-31013/)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
@@ -27,7 +29,7 @@ chatbot.
   . env/bin/activate
   ```
 
-- First let's install marker (following it's instructions)
+- First let's install marker (following its instructions)
 
   ```bash
   cd marker
