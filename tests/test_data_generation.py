@@ -189,7 +189,7 @@ def test_return_previously_generated_questions_and_answers_if_output_file_exists
     output_file = "tests/assets/output.json"
 
     # mocker.patch.object(Path, "exists", return_value=True)
-    # mocker.pathc.object(open, "read", return_value=json.dumps([]))
+    # mocker.patch.object(open, "read", return_value=json.dumps([]))
     mocker.patch.object(
         json,
         "load",

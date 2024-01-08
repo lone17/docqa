@@ -140,7 +140,7 @@ def find_highest_markdown_heading_level(lines: list[str]) -> int | None:
             # Trace a UDP packet from an IP address to a Pod
             antctl trace-packet -D ns1/pod1 -S 10.1.2.3 -f udp,udp_src=1234
             ```
-        Here # is a code comment not the md level symbole
+        Here # is a code comment not the md level symbol
         """
         if line.startswith("```"):
             code_section = not code_section
