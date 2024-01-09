@@ -13,3 +13,4 @@ docqa/demo/wandb/
 *__pycache__/
 .env
 site/
+.vscode

@@ -422,7 +422,7 @@ def make_instruction_sample_for_openai(
     question: str, answer: str, references: list[str]
 ) -> dict:
     """
-    Generates a function comment for the given function body.
+    Generates an instruction sample for OpenAI chat conversation.
 
     Args:
         question (str): The question to be used in the instruction.
@@ -431,7 +431,7 @@ def make_instruction_sample_for_openai(
             instruction.
 
     Returns:
-        dict: The generated function comment in the form of a dictionary.
+        dict: A dictionary containing the chat conversation sample.
     """
     reference_text = "\n\n".join(["===\n" + ref + "\n===" for ref in references])
     system_message = AnswerGenerator.model_fields["system_message"].default
