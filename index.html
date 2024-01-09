@@ -10,7 +10,7 @@
       
       
       
-        <link rel="next" href="reference/">
+        <link rel="next" href="report/">
       
       
       <link rel="icon" href="assets/images/favicon.png">
@@ -333,6 +333,8 @@
           
         
       
+        
+      
     
     
     
@@ -374,6 +376,27 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="report/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Technical Report
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
           </ul>
@@ -874,9 +897,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#from-docker" class="md-nav__link">
+  <a href="#using-docker" class="md-nav__link">
     <span class="md-ellipsis">
-      From Docker
+      Using Docker
     </span>
   </a>
   
@@ -944,16 +967,14 @@
 
 
 <h1 id="docqa">DocQA<a class="headerlink" href="#docqa" title="Permanent link">&para;</a></h1>
-<p>https://lone17.github.io/docqa/</p>
+<p>Documentation: https://lone17.github.io/docqa/</p>
 <p><a href="https://codeium.com"><img alt="built with Codeium" src="https://codeium.com/badges/main" /></a>
 <a href="https://www.python.org/downloads/release/python-31013/"><img alt="Python 3.10+" src="https://img.shields.io/badge/python-3.10+-blue.svg" /></a>
 <a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg" /></a></p>
 <p>Ask questions on your documents.</p>
-<p>This repo contains various tools for creating a document QA app from your text file to a RAG
-chatbot.</p>
+<p>This repo contains various tools for creating a document QA app from your text file to a RAG chatbot.</p>
 <h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h2>
 <ul>
-<li><code>Require python &gt;= 3.10</code></li>
 <li>Get the source code</li>
 </ul>
 <div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
@@ -970,7 +991,7 @@ chatbot.</p>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a>.<span class="w"> </span>env/bin/activate
 </span></code></pre></div></td></tr></table></div>
 <ul>
-<li>First let's install marker (following its instructions)</li>
+<li>First, let's install Marker (following its instructions)</li>
 </ul>
 <div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span>
 <span class="normal"><a href="#__codelineno-2-2">2</a></span>
@@ -994,8 +1015,12 @@ chatbot.</p>
 <h2 id="try-the-demo">Try the Demo<a class="headerlink" href="#try-the-demo" title="Permanent link">&para;</a></h2>
 <p>This repo contains a demo for the whole pipeline for a QA chatbot on Generative Agents based on the
 information
-in <a href="https://github.com/lone17/docqa/tree/main/docqa/demo/data/generative_agent/generative_agent%20(1).pdf">this paper</a>.</p>
-<p><img alt="" src="https://github.com/lone17/docqa/blob/main/docs/assets/image.png" /></p>
+in <a href="https://github.com/lone17/docqa/tree/main/docqa/demo/data/generative_agent/generative_agent%20(1).pdf">this
+paper</a>.</p>
+<blockquote>
+<p>In order to use this app, you need a OpenAI API key.</p>
+</blockquote>
+<p><img alt="UI" src="https://github.com/lone17/docqa/blob/main/docs/assets/image.png" /></p>
 <h3 id="from-source">From source<a class="headerlink" href="#from-source" title="Permanent link">&para;</a></h3>
 <p>Before playing with the demo, please populate your key and secrets in the <code>.env</code> file:</p>
 <div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span>
@@ -1004,7 +1029,7 @@ in <a href="https://github.com/lone17/docqa/tree/main/docqa/demo/data/generative
 <span class="normal"><a href="#__codelineno-4-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="nv">OPENAI_API_KEY</span><span class="o">=</span>...
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="nv">OPENAI_MODEL</span><span class="o">=</span>...
 </span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3"></a><span class="nv">OPENAI_SEED</span><span class="o">=</span>...
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4"></a><span class="nv">WANDB_API_KEY</span><span class="o">=</span>...
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4"></a><span class="nv">WANDB_API_KEY</span><span class="o">=</span>...<span class="w"> </span><span class="c1"># only needed if you want to fine-tune the model and use WanDB</span>
 </span></code></pre></div></td></tr></table></div>
 <p>All the scripts for the full pipeline as well as generated artifacts are in the <code>demo</code> folder.</p>
 <ul>
@@ -1013,8 +1038,8 @@ in <a href="https://github.com/lone17/docqa/tree/main/docqa/demo/data/generative
 <li>convert it to markdown</li>
 <li>chunk the content preserving structural content</li>
 <li>generate question-answers pairs</li>
-<li>prepare data for other steps: fine-tuning OpenAI models, adding to vector-stores.</li>
-<li><code>finetune_openai.py</code>: As the name suggests, this scripts is used to fine-tune the OpenAI model
+<li>prepare data for other steps: fine-tuning OpenAI models, and adding to vector-stores.</li>
+<li><code>finetune_openai.py</code>: As the name suggests, this script is used to fine-tune the OpenAI model
   using the data generated in <code>create_dataset.py</code>.</li>
 <li>Also includes Wandb logging.</li>
 <li><code>pipeline.py</code>: Declares the QA pipeline with semantic retrieval using ChromaDB.</li>
@@ -1025,7 +1050,7 @@ in <a href="https://github.com/lone17/docqa/tree/main/docqa/demo/data/generative
 <p>And to run the front end:</p>
 <div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a>streamlit<span class="w"> </span>run<span class="w"> </span>frontend.py
 </span></code></pre></div></td></tr></table></div>
-<h3 id="from-docker">From Docker<a class="headerlink" href="#from-docker" title="Permanent link">&para;</a></h3>
+<h3 id="using-docker">Using Docker<a class="headerlink" href="#using-docker" title="Permanent link">&para;</a></h3>
 <p>Alternatively, you can get the image from Docker Hub
 <a href="https://hub.docker.com/repository/docker/el117/docqa/general">here</a>.</p>
 <div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span>
@@ -1039,7 +1064,7 @@ in <a href="https://github.com/lone17/docqa/tree/main/docqa/demo/data/generative
 </span></code></pre></div></td></tr></table></div>
 <h2 id="architecture">Architecture<a class="headerlink" href="#architecture" title="Permanent link">&para;</a></h2>
 <h3 id="data-pipeline">Data pipeline<a class="headerlink" href="#data-pipeline" title="Permanent link">&para;</a></h3>
-<p>The diagram blow describes the data cycle. Result from each steps can be found at <a href="https://github.com/lone17/docqa/tree/main/docqa/demo/data/generative_agent">docqa/demo/data/generative_agent</a>.</p>
+<p>The diagram below describes the data life cycle. Results from each step can be found at <a href="https://github.com/lone17/docqa/tree/main/docqa/demo/data/generative_agent">docqa/demo/data/generative_agent</a>.</p>
 <pre class="mermaid"><code>flowchart TB
     subgraph pdf-to-md[PDF to Markdown]
         direction RL
@@ -1054,16 +1079,15 @@ in <a href="https://github.com/lone17/docqa/tree/main/docqa/demo/data/generative
         doc-tree --&gt; chunks([section-bounded\nchunks])
         top-lv --&gt; top-lv-qa([top-level sections\nQA pairs])
         top-lv-qa --&gt; finetune-data([fine-tuning data])
-        chunks --&gt; chunks-qa([chunk QA pairs])
     end
 
 
         finetune-data --&gt; lm{{language model}}
 
         top-lv-qa --&gt; vector-store[(vector store)]
-        chunks-qa --&gt; vector-store</code></pre>
+        chunks ----&gt; vector-store</code></pre>
 <h3 id="app">App<a class="headerlink" href="#app" title="Permanent link">&para;</a></h3>
-<p>The diagram below describe the app's internal working, from receiving a question to answering it.</p>
+<p>The diagram below describes the app's internal working, from receiving a question to answering it.</p>
 <pre class="mermaid"><code>flowchart LR
     query(query) --&gt; retriever
 
@@ -1161,7 +1185,7 @@ in <a href="https://github.com/lone17/docqa/tree/main/docqa/demo/data/generative
       
       
         <a
-          href="reference/"
+          href="report/"
           class="md-footer__link md-footer__link--next"
           rel="next"
         >
@@ -1170,7 +1194,7 @@ in <a href="https://github.com/lone17/docqa/tree/main/docqa/demo/data/generative
               <span class="md-footer__direction">
                 Next
               </span>
-              API Reference
+              Technical Report
             </div>
           </div>
           <div class="md-footer__button md-icon">
