@@ -878,6 +878,16 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#demo" class="md-nav__link">
+    <span class="md-ellipsis">
+      Demo
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Demo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#try-the-demo" class="md-nav__link">
     <span class="md-ellipsis">
       Try the Demo
@@ -909,8 +919,8 @@
     </nav>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#architecture" class="md-nav__link">
     <span class="md-ellipsis">
       Architecture
@@ -923,7 +933,7 @@
           <li class="md-nav__item">
   <a href="#data-pipeline" class="md-nav__link">
     <span class="md-ellipsis">
-      Data pipeline
+      Data Pipeline
     </span>
   </a>
   
@@ -935,6 +945,11 @@
       App
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -1012,16 +1027,18 @@
 <span class="normal"><a href="#__codelineno-3-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="nb">cd</span><span class="w"> </span>..
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.<span class="o">[</span>dev<span class="o">]</span>
 </span></code></pre></div></td></tr></table></div>
-<h2 id="try-the-demo">Try the Demo<a class="headerlink" href="#try-the-demo" title="Permanent link">&para;</a></h2>
+<h2 id="demo">Demo<a class="headerlink" href="#demo" title="Permanent link">&para;</a></h2>
 <p>This repo contains a demo for the whole pipeline for a QA chatbot on Generative Agents based on the
 information
 in <a href="https://github.com/lone17/docqa/tree/main/docqa/demo/data/generative_agent/generative_agent%20(1).pdf">this
 paper</a>.</p>
+<p>For information about the development process, please refer to the <a href="https://lone17.github.io/docqa/report/">technical report</a></p>
+<p><img alt="UI" src="https://raw.githubusercontent.com/lone17/docqa/main/docs/assets/image.png" /></p>
+<h3 id="try-the-demo">Try the Demo<a class="headerlink" href="#try-the-demo" title="Permanent link">&para;</a></h3>
+<h4 id="from-source">From source<a class="headerlink" href="#from-source" title="Permanent link">&para;</a></h4>
 <blockquote>
 <p>In order to use this app, you need a OpenAI API key.</p>
 </blockquote>
-<p><img alt="UI" src="https://github.com/lone17/docqa/blob/main/docs/assets/image.png" /></p>
-<h3 id="from-source">From source<a class="headerlink" href="#from-source" title="Permanent link">&para;</a></h3>
 <p>Before playing with the demo, please populate your key and secrets in the <code>.env</code> file:</p>
 <div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1">1</a></span>
 <span class="normal"><a href="#__codelineno-4-2">2</a></span>
@@ -1033,15 +1050,19 @@ paper</a>.</p>
 </span></code></pre></div></td></tr></table></div>
 <p>All the scripts for the full pipeline as well as generated artifacts are in the <code>demo</code> folder.</p>
 <ul>
-<li><code>create_dataset.py</code>: This script handles the full data processing pipeline:</li>
+<li><code>create_dataset.py</code>: This script handles the full data processing pipeline:<ul>
 <li>parse the pdf file</li>
 <li>convert it to markdown</li>
 <li>chunk the content preserving structural content</li>
 <li>generate question-answers pairs</li>
 <li>prepare data for other steps: fine-tuning OpenAI models, and adding to vector-stores.</li>
+</ul>
+</li>
 <li><code>finetune_openai.py</code>: As the name suggests, this script is used to fine-tune the OpenAI model
-  using the data generated in <code>create_dataset.py</code>.</li>
+    using the data generated in <code>create_dataset.py</code>.<ul>
 <li>Also includes Wandb logging.</li>
+</ul>
+</li>
 <li><code>pipeline.py</code>: Declares the QA pipeline with semantic retrieval using ChromaDB.</li>
 </ul>
 <p>The <code>main.py</code> script is the endpoint for running the backend app:</p>
@@ -1050,9 +1071,9 @@ paper</a>.</p>
 <p>And to run the front end:</p>
 <div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1">1</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a>streamlit<span class="w"> </span>run<span class="w"> </span>frontend.py
 </span></code></pre></div></td></tr></table></div>
-<h3 id="using-docker">Using Docker<a class="headerlink" href="#using-docker" title="Permanent link">&para;</a></h3>
-<p>Alternatively, you can get the image from Docker Hub
-<a href="https://hub.docker.com/repository/docker/el117/docqa/general">here</a>.</p>
+<h4 id="using-docker">Using Docker<a class="headerlink" href="#using-docker" title="Permanent link">&para;</a></h4>
+<p>Alternatively, you can get the image from
+<a href="https://hub.docker.com/repository/docker/el117/docqa/general">Docker Hub</a>.</p>
 <div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1">1</a></span>
 <span class="normal"><a href="#__codelineno-7-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a>docker<span class="w"> </span>pull<span class="w"> </span>el117/docqa
 </span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2"></a>docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>-p<span class="w"> </span><span class="m">8000</span>:8000<span class="w"> </span>-e<span class="w"> </span><span class="nv">OPENAI_API_KEY</span><span class="o">=</span>&lt;...&gt;<span class="w"> </span>el117/docqa
@@ -1062,8 +1083,8 @@ paper</a>.</p>
 <span class="normal"><a href="#__codelineno-8-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1"></a>pip<span class="w"> </span>install<span class="w"> </span>streamlit
 </span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2"></a>streamlit<span class="w"> </span>run<span class="w"> </span>frontend.py
 </span></code></pre></div></td></tr></table></div>
-<h2 id="architecture">Architecture<a class="headerlink" href="#architecture" title="Permanent link">&para;</a></h2>
-<h3 id="data-pipeline">Data pipeline<a class="headerlink" href="#data-pipeline" title="Permanent link">&para;</a></h3>
+<h3 id="architecture">Architecture<a class="headerlink" href="#architecture" title="Permanent link">&para;</a></h3>
+<h4 id="data-pipeline">Data Pipeline<a class="headerlink" href="#data-pipeline" title="Permanent link">&para;</a></h4>
 <p>The diagram below describes the data life cycle. Results from each step can be found at <a href="https://github.com/lone17/docqa/tree/main/docqa/demo/data/generative_agent">docqa/demo/data/generative_agent</a>.</p>
 <pre class="mermaid"><code>flowchart TB
     subgraph pdf-to-md[PDF to Markdown]
@@ -1086,7 +1107,7 @@ paper</a>.</p>
 
         top-lv-qa --&gt; vector-store[(vector store)]
         chunks ----&gt; vector-store</code></pre>
-<h3 id="app">App<a class="headerlink" href="#app" title="Permanent link">&para;</a></h3>
+<h4 id="app">App<a class="headerlink" href="#app" title="Permanent link">&para;</a></h4>
 <p>The diagram below describes the app's internal working, from receiving a question to answering it.</p>
 <pre class="mermaid"><code>flowchart LR
     query(query) --&gt; retriever

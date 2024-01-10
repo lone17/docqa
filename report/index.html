@@ -1272,11 +1272,11 @@
 <p>To better represent the document structure, a document tree is created from the markdown. A document tree is just a fancy way of saying that the hierarchy of the sections is represented in a nested manner. Which, in this case, is a JSON object.</p>
 <p>This was done by first extracting the heading lines, deciding the heading level based on the number of <code>#</code>, and then recursively constructing the document tree.</p>
 <h5 id="section-bounded-chunking">Section-bounded Chunking<a class="headerlink" href="#section-bounded-chunking" title="Permanent link">&para;</a></h5>
-<p>For language models, their context lengths are finite and fixed, thus too long of a context will not be utilize fully by the models. In vector stores, the texts are represented as dense vectors, thus the longer the text the harder is it to condense the content into a single vector. As such, when working with language models and vector stores, chunking is usually needed as using the entire document is not efficient.</p>
-<p>Throughout this project, chunking is used several times. The logic for chunking is as follow:</p>
+<p>For language models, their context lengths are finite and fixed, thus too long of a context will not be utilized fully by the models. In vector stores, the texts are represented as dense vectors, thus the longer the text the harder is it to condense the content into a single vector. As such, when working with language models and vector stores, chunking is usually needed as using the entire document is not efficient.</p>
+<p>Throughout this project, chunking is used several times. The logic for chunking is as follows:</p>
 <ul>
-<li>The chunks will be bounded to a single sections, meaning, no chunk is allowed to span across multiple sections. This is done by performing chunking on each section's content instead of on the entire document.</li>
-<li>To create a chunk, the text in a single section is first split on double newline characters (<code>\n\n</code>). This is an attempt to divide the text into paragraph candidates.</li>
+<li>The chunks will be bound to a single section, meaning, no chunk is allowed to span across multiple sections. This is done by performing chunking on each section's content instead of on the entire document.</li>
+<li>To create a chunk, the text in a single section is first split at double newline characters (<code>\n\n</code>). This is an attempt to divide the text into paragraph candidates.</li>
 <li>
 <p>Then, heuristics are used to combine the candidates:</p>
 <ul>
@@ -1288,7 +1288,7 @@
 <div class="admonition info">
 <p class="admonition-title">Implementation</p>
 <p>This logic is implemented in <code>docqa.core.chunking.chunk_content</code>.</p>
-<p>The choices of <code>single_threshold</code> and <code>composite_threshold</code> are 100 and 200 respectively. These was chosen because the average paragraph in English is about 100 - 200 words.</p>
+<p>The choices of <code>single_threshold</code> and <code>composite_threshold</code> are 100 and 200 respectively. This was chosen because the average paragraph in English is about 100 - 200 words.</p>
 </div>
 <div class="admonition tip">
 <p class="admonition-title">Using language models for chunking</p>
@@ -1296,7 +1296,9 @@
 </div>
 <h5 id="question-answer-pairs">Question-Answer Pairs<a class="headerlink" href="#question-answer-pairs" title="Permanent link">&para;</a></h5>
 <p>To fine-tune the model, a dataset in the form of question-answer pairs is needed. This step was done by providing a Language Model with a portion of the document and using it as the context for the model to generate questions and answers. It is important to make sure that the portions are semantically and structurally enclosed, meaning they must contain complete sentences describing complete ideas without being cut-off mid mid-context.</p>
-<p>It was observed that the lengths of the top-level sections fit well within the context length of the model, while still leaving plenty of room for the model's output. Thus, instead of using chunks, each entire top-level section is used for prompting the model to generate questions. Here, chunking is less desirable as whole section is guarantee to have semantic completeness which provides the model with better context for generation.</p>
+<p>It was observed that the lengths of the top-level sections fit well within the context length of the model, while still leaving plenty of room for the model's output. Thus, instead of using chunks, each entire top-level section is used for prompting the model to generate questions. Here, chunking is less desirable as whole sections are guaranteed to have semantic completeness which provides the model with better context for generation.</p>
+<p>The language model was provided with each section as context and was asked to generate a list of questions that can be based only on the given context and must cover all information of the context, along with answers to those questions. To avoid trivial questions, The number of questions is limited to the number of chunks (as described <a href="#section-bounded-chunking">above</a>) that the text can be split into. The idea is if the text contains <code>k</code> paragraphs, then there at most <code>k</code> questions should be asked corresponding to the content of each paragraph.</p>
+<p>However, the answers generated from the above process were short and lacked details. This is not desirable for fine-tuning datasets as the model might learn to only give short answers during downstream tasks.</p>
 <p>(work in progress)</p>
 
 
@@ -1320,7 +1322,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-01-09T09:36:39+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-01-09</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-01-10T06:00:58+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-01-10</span>
   </span>
 
     
@@ -1330,7 +1332,7 @@
     <span class="md-icon" title="Created">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3h-2Z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-01-09T09:36:39+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-01-09</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-01-10T06:00:58+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-01-10</span>
   </span>
 
     
