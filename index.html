@@ -982,10 +982,10 @@
 
 
 <h1 id="docqa">DocQA<a class="headerlink" href="#docqa" title="Permanent link">&para;</a></h1>
-<p>Documentation: https://lone17.github.io/docqa/</p>
-<p><a href="https://codeium.com"><img alt="built with Codeium" src="https://codeium.com/badges/main" /></a>
-<a href="https://www.python.org/downloads/release/python-31013/"><img alt="Python 3.10+" src="https://img.shields.io/badge/python-3.10+-blue.svg" /></a>
-<a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg" /></a></p>
+<p><a href="https://lone17.github.io/docqa/">Documentation</a></p>
+<p><a href="https://www.python.org/downloads/release/python-31013/"><img alt="Python 3.10+" src="https://img.shields.io/badge/python-3.10+-blue.svg" /></a>
+<a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg" /></a>
+<a href="https://codeium.com"><img alt="built with Codeium" src="https://codeium.com/badges/main" /></a></p>
 <p>Ask questions on your documents.</p>
 <p>This repo contains various tools for creating a document QA app from your text file to a RAG chatbot.</p>
 <h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h2>
@@ -1119,15 +1119,17 @@ paper</a>.</p>
         emb{{embedding model}}
     end
 
-    retriever --&gt; ref([references])
+    retriever --&gt; chunks([chunks])
+    retriever --&gt; questions([questions])
 
-    ref --&gt; thresh{similarity &gt; threshold}
-    query --&gt; thresh
+    query --&gt; thresh{similarity &gt; threshold}
+    questions --&gt; thresh
 
-    thresh -- true --&gt; answer(((answer)))
+    thresh --- true --&gt; answer(((answer &amp;\nreferences)))
 
-    thresh -- false --&gt; answerer
-    query --&gt; answerer
+    thresh --- false --&gt; answerer
+    chunks --&gt; answerer
+    query -------&gt; answerer
     answerer --&gt; answer
 
     subgraph answerer[AnswerGenerator]

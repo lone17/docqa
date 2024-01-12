@@ -555,6 +555,30 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Question-Answer Pairs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#generating-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Generating questions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#generating-longer-answers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Generating longer answers
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
       </ul>
@@ -1171,6 +1195,30 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Question-Answer Pairs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#generating-questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Generating questions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#generating-longer-answers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Generating longer answers
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
       </ul>
@@ -1223,8 +1271,7 @@
 </ol>
 <h2 id="development-process">Development process<a class="headerlink" href="#development-process" title="Permanent link">&para;</a></h2>
 <h3 id="data-processing">Data processing<a class="headerlink" href="#data-processing" title="Permanent link">&para;</a></h3>
-<div class="admonition note">
-<p class="admonition-title">Implementation</p>
+<div class="admonition tip">
 <p>The data processing pipeline is put together in the <code>docqa/demo/create_dataset.py</code> script.</p>
 </div>
 <h4 id="pdf-to-markdown">PDF to Markdown<a class="headerlink" href="#pdf-to-markdown" title="Permanent link">&para;</a></h4>
@@ -1240,12 +1287,16 @@
 </div>
 <h5 id="pdf-parsers">PDF parsers<a class="headerlink" href="#pdf-parsers" title="Permanent link">&para;</a></h5>
 <p>Meta has a powerful PDF parser called <a href="https://github.com/facebookresearch/nougat">Nougat</a> which was designed to work on academic documents, which is very suitable for the source document. However, experiments show that it runs quite slowly. It also tries to extract text from images which is a feature that is not needed for the purpose of this project and makes the output noisier for parsing.</p>
-<div class="admonition tip">
+<div class="admonition example">
 <p>A possible improvement would be to disable the OCR feature of Nougat. For the scope of this project, this was not done due to time constraints.</p>
 </div>
 <p>Thus, a different parser called <a href="https://github.com/VikParuchuri/marker">Marker</a> was used for the purpose of this project. It is significantly faster and produces less noise. However, it does not come without drawbacks. It uses Nougat internally along with other tools to handle different aspects of the parsing process. As a result, is a more complicated solution with many components and heuristics.</p>
-<p>In the specific case of the source document, Marker produced 2 noteworthy problems:</p>
+<div class="admonition tip">
+<p>The markdown output from Marker is stored in <a href="https://github.com/lone17/docqa/blob/main/docqa/demo/data/generative_agent/marker_output.md"><code>marker_output.md</code></a>.</p>
+</div>
 <div class="admonition bug">
+<p class="admonition-title">Parser issues</p>
+<p>In the specific case of the source document, Marker produced 2 noteworthy problems:</p>
 <ul>
 <li>As it tries to detect the column layout of the document, it fails to correctly parse the first page of the document where the authors section has 3 columns while the Abstract has only 2. This results in mixed-up content on the first page. A possible reason for this might be that it failed to identify that the author section and the Abstract are separated, thus treating them as a single section with 2 columns.</li>
 <li>Near the end of its pipeline is a post-processing step that makes heavy use of heuristics to combine all the extracted text into sentences and paragraphs. This process tends to not preserve the structure of the document, and combined with the first problem, creates even more noisier texts.</li>
@@ -1260,10 +1311,10 @@
 <h5 id="post-processing-using-language-models">Post-processing using Language Models<a class="headerlink" href="#post-processing-using-language-models" title="Permanent link">&para;</a></h5>
 <p>To process the loosely structured text from Marker, a language model (<code>gpt-3.5-turbo</code> in this case) was employed to tidy it up into a more structured format. Language models are suitable for this task due to their ability to understand the semantic and sentence structure of the natural language.</p>
 <p>To best preserve the structure, heading lines (begin with <code>#</code>) were extracted, and then, only the text in between 2 heading lines was sent to the language model for reconstruction, with some prompt engineering involved. Note that, an exception was made which combines the author section and the Abstract section to address the earlier-mentioned problem.</p>
-<p>However, since the model produces outputs with a similar length as the inputs, the input length can only be at most half of the model's context length. Thus, the amount of tokens sent to the model was limited to 4096. The output of the model is then compared to the input using a similarity metric, this is done to minimize the chances that the model adds new content or produces an output that is too different from the input.</p>
-<div class="admonition info">
-<p class="admonition-title">Implementation</p>
-<p>The logic of this procedure is implemented in the class <code>docqa.core.markdown.tidy_markdown_sections</code>.</p>
+<p>However, since the model produces outputs with a similar length as the inputs, the input length can only be at most half of the model's context length. Thus, the amount of tokens sent to the model was limited to <code>4096</code>.</p>
+<p>The output of the model is then compared to the input using a similarity metric, this is done to minimize the chances that the model adds new content or produces an output that is too different from the input.</p>
+<div class="admonition tip">
+<p>The logic of this procedure is implemented in the <a class="autorefs autorefs-internal" href="../reference/core/markdown/#core.markdown.tidy_markdown_sections"><code>tidy_markdown_sections</code></a> method, and the tidied output is stored at <a href="https://github.com/lone17/docqa/blob/main/docqa/demo/data/generative_agent/tidy_output.md"><code>tidy_output.md</code></a>.</p>
 </div>
 <h3 id="model-development">Model development<a class="headerlink" href="#model-development" title="Permanent link">&para;</a></h3>
 <h4 id="create-the-training-dataset">Create the Training Dataset<a class="headerlink" href="#create-the-training-dataset" title="Permanent link">&para;</a></h4>
@@ -1271,6 +1322,9 @@
 <h5 id="document-tree">Document tree<a class="headerlink" href="#document-tree" title="Permanent link">&para;</a></h5>
 <p>To better represent the document structure, a document tree is created from the markdown. A document tree is just a fancy way of saying that the hierarchy of the sections is represented in a nested manner. Which, in this case, is a JSON object.</p>
 <p>This was done by first extracting the heading lines, deciding the heading level based on the number of <code>#</code>, and then recursively constructing the document tree.</p>
+<div class="admonition tip">
+<p>The output JSON file is stored at <a href="https://github.com/lone17/docqa/blob/main/docqa/demo/data/generative_agent/doc_tree.json"><code>doc_tree.json</code></a>.</p>
+</div>
 <h5 id="section-bounded-chunking">Section-bounded Chunking<a class="headerlink" href="#section-bounded-chunking" title="Permanent link">&para;</a></h5>
 <p>For language models, their context lengths are finite and fixed, thus too long of a context will not be utilized fully by the models. In vector stores, the texts are represented as dense vectors, thus the longer the text the harder is it to condense the content into a single vector. As such, when working with language models and vector stores, chunking is usually needed as using the entire document is not efficient.</p>
 <p>Throughout this project, chunking is used several times. The logic for chunking is as follows:</p>
@@ -1285,20 +1339,54 @@
 </ul>
 </li>
 </ul>
-<div class="admonition info">
+<div class="admonition tip">
 <p class="admonition-title">Implementation</p>
-<p>This logic is implemented in <code>docqa.core.chunking.chunk_content</code>.</p>
+<p>This logic is implemented in the <a class="autorefs autorefs-internal" href="../reference/core/chunking/#core.chunking.chunk_content"><code>chunk_content</code></a> function.</p>
 <p>The choices of <code>single_threshold</code> and <code>composite_threshold</code> are 100 and 200 respectively. This was chosen because the average paragraph in English is about 100 - 200 words.</p>
 </div>
-<div class="admonition tip">
+<div class="admonition example">
 <p class="admonition-title">Using language models for chunking</p>
 <p>Alternatively, a language model can used to divide the text into semantic paragraphs. However, the content in the source document was already presented in short paragraphs and the parsing step preserves this structure quite well, thus the use of language models is not necessary.</p>
 </div>
 <h5 id="question-answer-pairs">Question-Answer Pairs<a class="headerlink" href="#question-answer-pairs" title="Permanent link">&para;</a></h5>
 <p>To fine-tune the model, a dataset in the form of question-answer pairs is needed. This step was done by providing a Language Model with a portion of the document and using it as the context for the model to generate questions and answers. It is important to make sure that the portions are semantically and structurally enclosed, meaning they must contain complete sentences describing complete ideas without being cut-off mid mid-context.</p>
+<h6 id="generating-questions">Generating questions<a class="headerlink" href="#generating-questions" title="Permanent link">&para;</a></h6>
 <p>It was observed that the lengths of the top-level sections fit well within the context length of the model, while still leaving plenty of room for the model's output. Thus, instead of using chunks, each entire top-level section is used for prompting the model to generate questions. Here, chunking is less desirable as whole sections are guaranteed to have semantic completeness which provides the model with better context for generation.</p>
-<p>The language model was provided with each section as context and was asked to generate a list of questions that can be based only on the given context and must cover all information of the context, along with answers to those questions. To avoid trivial questions, The number of questions is limited to the number of chunks (as described <a href="#section-bounded-chunking">above</a>) that the text can be split into. The idea is if the text contains <code>k</code> paragraphs, then there at most <code>k</code> questions should be asked corresponding to the content of each paragraph.</p>
-<p>However, the answers generated from the above process were short and lacked details. This is not desirable for fine-tuning datasets as the model might learn to only give short answers during downstream tasks.</p>
+<p>The language model was provided with each section as context and was asked to generate a list of questions that can be based only on the given context and must cover all information of the context, along with answers to those questions. To avoid trivial and duplicate questions, The number of questions is limited to the number of chunks (as described <a href="#section-bounded-chunking">above</a>) that the text can be split into. The idea is if the text contains <code>k</code> paragraphs, then at most <code>k</code> questions corresponding to the content of each paragraph should be asked.</p>
+<div class="admonition note">
+<p>All sections were used to generate questions except for the Reference section as it does not describe the main content.</p>
+</div>
+<div class="admonition tip">
+<p>The questions generation process was handled by the <a class="autorefs autorefs-internal" href="../reference/core/data_generation/#core.data_generation.generate_top_sections_questions"><code>generate_top_sections_questions</code></a> function, which uses the <a class="autorefs autorefs-internal" href="../reference/core/data_generation/#core.data_generation.QAPairGenerator"><code>QAPairGenerator</code></a> class.</p>
+</div>
+<div class="admonition example">
+<p class="admonition-title">Prompt engineering</p>
+<p>2 different prompts were used, indicated by the parameter <code>question_type</code> with the value of either <code>sparse</code> or <code>dense</code>:</p>
+<ul>
+<li>The <code>sparse</code> prompt does not limit the number of questions. Questions generated using this prompt tend to be extractive and trivial, whose answers are one or a few verbatim sentences from the context.</li>
+<li>The <code>dense</code> prompt limits the number of questions to the calculated number of chunks, which forces the model to come up with "denser" questions. Questions generated using this prompt tend to be less simple and require more context to be answered.</li>
+</ul>
+</div>
+<div class="admonition example">
+<p class="admonition-title">Potential approach for improving quantity and quality</p>
+<ul>
+<li>The chunks can be used to generate more focused questions. However, since the number of questions for fine-tuning is limited to 100, this was not necessary.</li>
+<li>Questions quality can be improved by asking the language model to generate more abstract questions such as questions for explanation and comparison. However, these types of questions would require some manual effort to validate.</li>
+<li>Another approach to generate more and better questions is to use cross-section context. For example, pick 2 chunks from different sections and ask the model to describe the connection between them.</li>
+<li>Questions that require reasoning could be generated by asking the model to:<ul>
+<li>generate the conclusion based on the methodology and experiment sections;</li>
+<li>design the experiments based on the claims;</li>
+<li>explain the results of the experiments;</li>
+<li>give criticism based on the claims and the experiment results.</li>
+</ul>
+</li>
+</ul>
+</div>
+<h6 id="generating-longer-answers">Generating longer answers<a class="headerlink" href="#generating-longer-answers" title="Permanent link">&para;</a></h6>
+<p>The answers generated from the above process were short and lacked details. This is not desirable for fine-tuning datasets as the model might learn to only give short answers during inference. To generate more detailed answers, the model was prompted with the generated questions one at a time, along with the corresponding section as context.</p>
+<div class="admonition tip">
+<p>Long answers generation was implemented in the <a class="autorefs autorefs-internal" href="../reference/core/data_generation/#core.data_generation.generate_long_answers_for_sections_questions"><code>generate_long_answers_for_sections_questions</code></a> method which uses the <a class="autorefs autorefs-internal" href="../reference/core/data_generation/#core.data_generation.AnswerGenerator"><code>AnswerGenerator</code></a> class. The output is stored in the <a href="https://github.com/lone17/docqa/tree/main/docqa/demo/data/generative_agent/top_sections_qa_data_long_answers.json"><code>top_sections_qa_data_long_answers.json</code></a> file.</p>
+</div>
 <p>(work in progress)</p>
 
 
@@ -1322,7 +1410,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-01-10T06:00:58+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-01-10</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-01-12T07:07:05+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-01-12</span>
   </span>
 
     
@@ -1332,7 +1420,7 @@
     <span class="md-icon" title="Created">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3h-2Z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-01-10T06:00:58+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-01-10</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-01-12T07:07:05+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-01-12</span>
   </span>
 
     
