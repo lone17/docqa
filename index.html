@@ -1033,7 +1033,7 @@ information
 in <a href="https://github.com/lone17/docqa/tree/main/docqa/demo/data/generative_agent/generative_agent%20(1).pdf">this
 paper</a>.</p>
 <p>For information about the development process, please refer to the <a href="https://lone17.github.io/docqa/report/">technical report</a></p>
-<p><img alt="UI" src="https://raw.githubusercontent.com/lone17/docqa/main/docs/assets/image.png" /></p>
+<p><img alt="UI" src="https://raw.githubusercontent.com/lone17/docqa/main/docs/assets/ui.png" /></p>
 <h3 id="try-the-demo">Try the Demo<a class="headerlink" href="#try-the-demo" title="Permanent link">&para;</a></h3>
 <h4 id="from-source">From source<a class="headerlink" href="#from-source" title="Permanent link">&para;</a></h4>
 <blockquote>
@@ -1050,19 +1050,15 @@ paper</a>.</p>
 </span></code></pre></div></td></tr></table></div>
 <p>All the scripts for the full pipeline as well as generated artifacts are in the <code>demo</code> folder.</p>
 <ul>
-<li><code>create_dataset.py</code>: This script handles the full data processing pipeline:<ul>
+<li><code>create_dataset.py</code>: This script handles the full data processing pipeline:</li>
 <li>parse the pdf file</li>
 <li>convert it to markdown</li>
 <li>chunk the content preserving structural content</li>
 <li>generate question-answers pairs</li>
 <li>prepare data for other steps: fine-tuning OpenAI models, and adding to vector-stores.</li>
-</ul>
-</li>
 <li><code>finetune_openai.py</code>: As the name suggests, this script is used to fine-tune the OpenAI model
-    using the data generated in <code>create_dataset.py</code>.<ul>
+  using the data generated in <code>create_dataset.py</code>.</li>
 <li>Also includes Wandb logging.</li>
-</ul>
-</li>
 <li><code>pipeline.py</code>: Declares the QA pipeline with semantic retrieval using ChromaDB.</li>
 </ul>
 <p>The <code>main.py</code> script is the endpoint for running the backend app:</p>
@@ -1086,55 +1082,61 @@ paper</a>.</p>
 <h3 id="architecture">Architecture<a class="headerlink" href="#architecture" title="Permanent link">&para;</a></h3>
 <h4 id="data-pipeline">Data Pipeline<a class="headerlink" href="#data-pipeline" title="Permanent link">&para;</a></h4>
 <p>The diagram below describes the data life cycle. Results from each step can be found at <a href="https://github.com/lone17/docqa/tree/main/docqa/demo/data/generative_agent">docqa/demo/data/generative_agent</a>.</p>
-<pre class="mermaid"><code>flowchart TB
+<pre class="mermaid"><code>flowchart LR
     subgraph pdf-to-md[PDF to Markdown]
         direction RL
-        pdf[PDF] --&gt; raw-md(raw markdown)
-        raw-md --&gt; tidied-md([tidied markdown])
+        pdf[PDF] --&gt; raw-md(raw\nmarkdown)
+        raw-md --&gt; tidied-md([tidied\nmarkdown])
     end
 
     subgraph create-dataset[Create Dataset]
-        tidied-md --&gt; sections([Markdown sections])
-        sections --&gt; doc-tree([doc tree])
-        doc-tree --&gt; top-lv([top-level sections])
+        tidied-md --&gt; sections([markdown\nsections])
+        sections --&gt; doc-tree([doc\ntree])
+        doc-tree --&gt; top-lv([top-level\nsections])
         doc-tree --&gt; chunks([section-bounded\nchunks])
         top-lv --&gt; top-lv-qa([top-level sections\nQA pairs])
-        top-lv-qa --&gt; finetune-data([fine-tuning data])
+        top-lv-qa --&gt; finetune-data([fine-tuning\ndata])
     end
 
 
-        finetune-data --&gt; lm{{language model}}
+        finetune-data --&gt; lm{{language\nmodel}}
 
-        top-lv-qa --&gt; vector-store[(vector store)]
+        top-lv-qa --&gt; vector-store[(vector\nstore)]
         chunks ----&gt; vector-store</code></pre>
 <h4 id="app">App<a class="headerlink" href="#app" title="Permanent link">&para;</a></h4>
 <p>The diagram below describes the app's internal working, from receiving a question to answering it.</p>
 <pre class="mermaid"><code>flowchart LR
-    query(query) --&gt; retriever
+    query(query) --&gt; emb{{embedding\nmodel}}
 
-    subgraph retriever[Semantic Retriever]
+    subgraph retriever[SemanticRetriever]
         direction LR
-        doc-tree([doc tree])
-        vector-store[(vector store)]
-        emb{{embedding model}}
+        vector-store[(vector\nstore)]
+
+        emb --&gt; vector-store
+        vector-store --&gt; chunks([related\nchunks])
+        vector-store --&gt; questions([similar\nquestions])
+        questions --&gt; sections([related\nsections])
     end
 
-    retriever --&gt; chunks([chunks])
-    retriever --&gt; questions([questions])
+    sections --&gt; ref([references])
+    chunks --&gt; ref
 
     query --&gt; thresh{similarity &gt; threshold}
     questions --&gt; thresh
 
-    thresh --- true --&gt; answer(((answer &amp;\nreferences)))
+    thresh -- true --&gt; answer(((answer &amp;\nreferences)))
+    thresh -- false --&gt; answerer
 
-    thresh --- false --&gt; answerer
-    chunks --&gt; answerer
-    query -------&gt; answerer
-    answerer --&gt; answer
+    ref --&gt; prompt(prompt)
+    query --&gt; prompt
 
     subgraph answerer[AnswerGenerator]
-        lm{{language model}}
-    end</code></pre>
+        direction LR
+        prompt --&gt; llm{{language\nmodel}}
+    end
+
+    llm --&gt; answer
+    ref --&gt; answer</code></pre>
 
 
 
