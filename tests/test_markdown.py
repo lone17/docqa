@@ -4,7 +4,7 @@ from docqa.core.markdown import (
     MarkdownTidier,
     filter_empty_sections,
     find_highest_markdown_heading_level,
-    header_similarity_score,
+    heading_similarity_score,
     merge_abstract_with_previous_sections,
     preprocess_sections,
 )
@@ -70,19 +70,19 @@ def test_preprocess_sections_fixed():
     assert result == expected_sections
 
 
-# The 'header_similarity_score' function can calculate the similarity score between two
-# headers.
-def test_header_similarity_score():
-    header1 = "This is a header"
-    header2 = "This is another header"
-    expected_score = 0.727272739669421
+# The 'heading_similarity_score' function can calculate the similarity score between two
+# headings.
+def test_heading_similarity_score():
+    heading1 = "This is a heading"
+    heading2 = "This is another heading"
+    expected_score = 0.7391304461247632
 
-    score = header_similarity_score(header1, header2)
+    score = heading_similarity_score(heading1, heading2)
 
     assert score == expected_score
 
 
-# The 'filter_empty_sections' function can filter out sections with empty headers and
+# The 'filter_empty_sections' function can filter out sections with empty headings and
 # content.
 def test_filter_empty_sections():
     # Define input sections
