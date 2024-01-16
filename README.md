@@ -1,19 +1,17 @@
 # DocQA
 
-https://lone17.github.io/docqa/
+[Documentation](https://lone17.github.io/docqa/)
 
-[![built with Codeium](https://codeium.com/badges/main)](https://codeium.com)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/release/python-31013/)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![built with Codeium](https://codeium.com/badges/main)](https://codeium.com)
 
 Ask questions on your documents.
 
-This repo contains various tools for creating a document QA app from your text file to a RAG
-chatbot.
+This repo contains various tools for creating a document QA app from your text file to a RAG chatbot.
 
 ## Installation
 
-- `Require python >= 3.10`
 - Get the source code
 
   ```bash
@@ -29,7 +27,7 @@ chatbot.
   . env/bin/activate
   ```
 
-- First let's install marker (following its instructions)
+- First, let's install Marker (following its instructions)
 
   ```bash
   cd marker
@@ -47,15 +45,22 @@ chatbot.
   pip install -e .[dev]
   ```
 
-## Try the Demo
+## Demo
 
 This repo contains a demo for the whole pipeline for a QA chatbot on Generative Agents based on the
 information
-in [this paper](<https://github.com/lone17/docqa/tree/main/docqa/demo/data/generative_agent/generative_agent%20(1).pdf>).
+in [this
+paper](<https://github.com/lone17/docqa/tree/main/docqa/demo/data/generative_agent/generative_agent%20(1).pdf>).
 
-![](https://github.com/lone17/docqa/blob/main/docs/assets/image.png)
+For information about the development process, please refer to the [technical report](https://lone17.github.io/docqa/report/)
 
-### From source
+![UI](https://raw.githubusercontent.com/lone17/docqa/main/docs/assets/ui.png)
+
+### Try the Demo
+
+#### From source
+
+> In order to use this app, you need a OpenAI API key.
 
 Before playing with the demo, please populate your key and secrets in the `.env` file:
 
@@ -63,7 +68,7 @@ Before playing with the demo, please populate your key and secrets in the `.env`
 OPENAI_API_KEY=...
 OPENAI_MODEL=...
 OPENAI_SEED=...
-WANDB_API_KEY=...
+WANDB_API_KEY=... # only needed if you want to fine-tune the model and use WanDB
 ```
 
 All the scripts for the full pipeline as well as generated artifacts are in the `demo` folder.
@@ -73,8 +78,8 @@ All the scripts for the full pipeline as well as generated artifacts are in the 
   - convert it to markdown
   - chunk the content preserving structural content
   - generate question-answers pairs
-  - prepare data for other steps: fine-tuning OpenAI models, adding to vector-stores.
-- `finetune_openai.py`: As the name suggests, this scripts is used to fine-tune the OpenAI model
+  - prepare data for other steps: fine-tuning OpenAI models, and adding to vector-stores.
+- `finetune_openai.py`: As the name suggests, this script is used to fine-tune the OpenAI model
   using the data generated in `create_dataset.py`.
   - Also includes Wandb logging.
 - `pipeline.py`: Declares the QA pipeline with semantic retrieval using ChromaDB.
@@ -91,10 +96,10 @@ And to run the front end:
 streamlit run frontend.py
 ```
 
-### From Docker
+#### Using Docker
 
-Alternatively, you can get the image from Docker Hub
-[here](https://hub.docker.com/repository/docker/el117/docqa/general).
+Alternatively, you can get the image from
+[Docker Hub](https://hub.docker.com/repository/docker/el117/docqa/general).
 
 ```bash
 docker pull el117/docqa
@@ -108,64 +113,71 @@ pip install streamlit
 streamlit run frontend.py
 ```
 
-## Architecture
+### Architecture
 
-### Data pipeline
+#### Data Pipeline
 
-The diagram blow describes the data cycle. Result from each steps can be found at [docqa/demo/data/generative_agent](https://github.com/lone17/docqa/tree/main/docqa/demo/data/generative_agent).
-
-```mermaid
-flowchart TB
-    subgraph pdf-to-md[PDF to Markdown]
-        direction RL
-        pdf[PDF] --> raw-md(raw markdown)
-        raw-md --> tidied-md([tidied markdown])
-    end
-
-    subgraph create-dataset[Create Dataset]
-        tidied-md --> sections([Markdown sections])
-        sections --> doc-tree([doc tree])
-        doc-tree --> top-lv([top-level sections])
-        doc-tree --> chunks([section-bounded\nchunks])
-        top-lv --> top-lv-qa([top-level sections\nQA pairs])
-        top-lv-qa --> finetune-data([fine-tuning data])
-        chunks --> chunks-qa([chunk QA pairs])
-    end
-
-
-        finetune-data --> lm{{language model}}
-
-        top-lv-qa --> vector-store[(vector store)]
-        chunks-qa --> vector-store
-```
-
-### App
-
-The diagram below describe the app's internal working, from receiving a question to answering it.
+The diagram below describes the data life cycle. Results from each step can be found at [docqa/demo/data/generative_agent](https://github.com/lone17/docqa/tree/main/docqa/demo/data/generative_agent).
 
 ```mermaid
 flowchart LR
-    query(query) --> retriever
-
-    subgraph retriever[Semantic Retriever]
-        direction LR
-        doc-tree([doc tree])
-        vector-store[(vector store)]
-        emb{{embedding model}}
+    subgraph pdf-to-md[PDF to Markdown]
+        direction RL
+        pdf[PDF] --> raw-md(raw\nmarkdown)
+        raw-md --> tidied-md([tidied\nmarkdown])
     end
 
-    retriever --> ref([references])
+    subgraph create-dataset[Create Dataset]
+        tidied-md --> sections([markdown\nsections])
+        sections --> doc-tree([doc\ntree])
+        doc-tree --> top-lv([top-level\nsections])
+        doc-tree --> chunks([section-bounded\nchunks])
+        top-lv --> top-lv-qa([top-level sections\nQA pairs])
+        top-lv-qa --> finetune-data([fine-tuning\ndata])
+    end
 
-    ref --> thresh{similarity > threshold}
-    query --> thresh
 
-    thresh -- true --> answer(((answer)))
+        finetune-data --> lm{{language\nmodel}}
 
+        top-lv-qa --> vector-store[(vector\nstore)]
+        chunks ----> vector-store
+```
+
+#### App
+
+The diagram below describes the app's internal working, from receiving a question to answering it.
+
+```mermaid
+flowchart LR
+    query(query) --> emb{{embedding\nmodel}}
+
+    subgraph retriever[SemanticRetriever]
+        direction LR
+        vector-store[(vector\nstore)]
+
+        emb --> vector-store
+        vector-store --> chunks([related\nchunks])
+        vector-store --> questions([similar\nquestions])
+        questions --> sections([related\nsections])
+    end
+
+    sections --> ref([references])
+    chunks --> ref
+
+    query --> thresh{similarity > threshold}
+    questions --> thresh
+
+    thresh -- true --> answer(((answer &\nreferences)))
     thresh -- false --> answerer
-    query --> answerer
-    answerer --> answer
+
+    ref --> prompt(prompt)
+    query --> prompt
 
     subgraph answerer[AnswerGenerator]
-        lm{{language model}}
+        direction LR
+        prompt --> llm{{language\nmodel}}
     end
+
+    llm --> answer
+    ref --> answer
 ```

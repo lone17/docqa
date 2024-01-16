@@ -32,29 +32,30 @@ def create_openai_dataset(
     Generate a dataset for OpenAI based on the given sections QA data.
 
     Parameters:
-    - sections_qa_data_flatten (dict): A dictionary containing the flattened sections
-        QA data.
-    - section_type (Literal["main", "summary", "metadata", "extra"], optional): The
-        type of section to include in the dataset. Defaults to "main".
-    - question_type (Literal["dense", "sparse"], optional): The type of question to
-        include in the dataset. Defaults to "dense".
-    - answer_type (Literal["long", "short"], optional): The type of answer to include
-        in the dataset. Defaults to "long".
-    - prompt_type (Literal["instruction", "simple"], optional): The type of prompt to
-        use in the dataset. Defaults to "instruction".
+        sections_qa_data_flatten (dict): A dictionary containing the flattened sections
+            QA data.
+        section_type (Literal["main", "summary", "metadata", "extra"], optional): The
+            type of section to include in the dataset. Defaults to "main".
+        question_type (Literal["dense", "sparse"], optional): The type of question to
+            include in the dataset. Defaults to "dense".
+        answer_type (Literal["long", "short"], optional): The type of answer to include
+            in the dataset. Defaults to "long".
+        prompt_type (Literal["instruction", "simple"], optional): The type of prompt to
+            use in the dataset. Defaults to "instruction".
 
     Returns:
-    - list[dict]: The generated dataset for OpenAI.
+        list[dict]: The generated dataset for OpenAI.
 
     Note:
-    - The dataset is generated based on the specified parameters.
-    - Only sections that exist in the sections QA data will be included in the dataset.
-    - For each section, the questions and answers are extracted based on the question
-        type and answer type.
-    - Depending on the prompt type, different sample generation functions are used to
-        create the samples.
-    - The dataset is a list of dictionaries, where each dictionary represents a sample.
-
+        - The dataset is generated based on the specified parameters.
+        - Only sections that exist in the sections QA data will be included in the
+        dataset.
+        - For each section, the questions and answers are extracted based on the
+        question type and answer type.
+        - Depending on the prompt type, different sample generation functions are used
+        to create the samples.
+        - The dataset is a list of dictionaries, where each dictionary represents a
+        sample.
     """
     dataset = []
     for heading in SECTIONS[section_type]:
@@ -127,7 +128,7 @@ if __name__ == "__main__":
 
     # create the dataset
     for options in [
-        (["main"], ["dense", "sparse"], ["long"], ["instruction"]),
+        (["main"], ["dense"], ["long"], ["instruction"]),
         (["summary"], ["dense", "sparse"], ["long"], ["instruction"]),
     ]:
         final_dataset = []

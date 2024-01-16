@@ -6,6 +6,7 @@ edit_uri: edit/main/docs/
 nav:
   - Overview:
       - Overview: index.md
+      - Technical Report: report.md
   # generated using gen-files + literate-nav
   - API Reference: reference/
 

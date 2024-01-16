@@ -206,14 +206,16 @@ class AnswerGenerator(BaseModel):
 
         Returns:
             Tuple[str, dict]: A tuple containing the generated answer and metadata.
-                - answer (str): The generated answer as a string.
-                - metadata (dict): Additional metadata about the response.
-                    - finish_reason (str): The reason why the completion finished.
-                    - usage (dict): Usage statistics of the completion.
-                        - completed_tokens (int): The number of tokens used for
-                            completion.
-                        - prompt_tokens (int): The number of tokens used for the prompt.
-                        - total_tokens (int): The total number of tokens used.
+
+        Output dict structure:
+            - answer (str): The generated answer as a string.
+            - metadata (dict): Additional metadata about the response.
+                - finish_reason (str): The reason why the completion finished.
+                - usage (dict): Usage statistics of the completion.
+                    - completed_tokens (int): The number of tokens used for
+                        completion.
+                    - prompt_tokens (int): The number of tokens used for the prompt.
+                    - total_tokens (int): The total number of tokens used.
         """
         messages = [
             {"role": "system", "content": self.system_message},
@@ -361,9 +363,7 @@ def generate_long_answers_for_sections_questions(
     for heading, section in sections_with_questions.items():
         print(f"Generating long answers for dense questions of {heading}")
         reference = f"===\n[source: {heading}]\n{section['text']}\n===\n"
-        import pdb
 
-        pdb.set_trace()
         for question in section["dense_questions"]:
             answer, _ = answer_gen.process(
                 question=question["question"],
@@ -420,7 +420,7 @@ def make_instruction_sample_for_openai(
     question: str, answer: str, references: list[str]
 ) -> dict:
     """
-    Generates a function comment for the given function body.
+    Generates an instruction sample for OpenAI chat conversation.
 
     Args:
         question (str): The question to be used in the instruction.
@@ -429,7 +429,7 @@ def make_instruction_sample_for_openai(
             instruction.
 
     Returns:
-        dict: The generated function comment in the form of a dictionary.
+        dict: A dictionary containing the chat conversation sample.
     """
     reference_text = "\n\n".join(["===\n" + ref + "\n===" for ref in references])
     system_message = AnswerGenerator.model_fields["system_message"].default
