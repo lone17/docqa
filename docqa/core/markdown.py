@@ -209,13 +209,13 @@ def filter_empty_sections(sections: list[tuple[str, str]]) -> list[tuple[str, st
 
     Args:
         sections (list[tuple[str, str]]): A list of tuples representing sections, where
-            each tuple contains a header (str) and content (str).
+            each tuple contains a heading (str) and content (str).
 
     Returns:
         list[tuple[str, str]]: A list of tuples representing non-empty sections, where
-            each tuple contains a header (str) and content (str).
+            each tuple contains a heading (str) and content (str).
     """
-    return [(header, content) for header, content in sections if header or content]
+    return [(heading, content) for heading, content in sections if heading or content]
 
 
 def merge_abstract_with_previous_sections(sections: list[tuple[str, str]]):
@@ -226,26 +226,26 @@ def merge_abstract_with_previous_sections(sections: list[tuple[str, str]]):
 
     Args:
         sections (list[tuple[str, str]]): A list of tuples representing sections, where
-            each tuple contains a header (str) and content (str).
+            each tuple contains a heading (str) and content (str).
 
     Returns:
         list[tuple[str, str]]: A list of tuples representing merged sections, where
-            each tuple contains a header (str) and content (str).
+            each tuple contains a heading (str) and content (str).
     """
 
     if len(sections) < 2:
         return sections
 
-    first_header = sections[0][0]
+    first_heading = sections[0][0]
     text_sections = [sections[0][1]]
 
     for i in range(1, len(sections)):
-        header, content = sections[i]
-        current_text = f"{header}\n\n{content}"
+        heading, content = sections[i]
+        current_text = f"{heading}\n\n{content}"
         text_sections.append(current_text)
-        if re.sub(r"[^a-zA-Z]", "", header).lower() == "abstract":
+        if re.sub(r"[^a-zA-Z]", "", heading).lower() == "abstract":
             combined_text = "\n\n".join(text_sections)
-            return [(first_header, combined_text)] + sections[i + 1 :]
+            return [(first_heading, combined_text)] + sections[i + 1 :]
 
     return sections
 
@@ -295,35 +295,35 @@ def text_similarity_score(text1: str, text2: str) -> float:
     )
 
 
-def header_similarity_score(header1: str, header2: str) -> float:
+def heading_similarity_score(heading1: str, heading2: str) -> float:
     """
-    Calculate the similarity score between two headers.
+    Calculate the similarity score between two headings.
 
     Parameters:
-        header1 (str): The first header.
-        header2 (str): The second header.
+        heading1 (str): The first heading.
+        heading2 (str): The second heading.
 
     Returns:
-        float: The similarity score between the two headers.
+        float: The similarity score between the two headings.
     """
-    return 1 - editdistance.eval(header1, header2) / (
-        max(len(header1), len(header2)) + 1e-6
+    return 1 - editdistance.eval(heading1, heading2) / (
+        max(len(heading1), len(heading2)) + 1e-6
     )
 
 
 def preserve_content(
-    header: str,
+    heading: str,
     old_content: str,
     new_text: str,
-    header_similarity_threshold: float = 0.7,
+    heading_similarity_threshold: float = 0.7,
     content_similarity_threshold: float = 0.8,
 ) -> tuple[str, float]:
     """
-    Calculate the similarity between the given header and new header using a threshold.
-    If the similarity score is above the threshold, the new text still contains the
-    header, so the content after the header is extracted as the new content.
-    If the similarity score is below the threshold, the new text does not contain the
-    header, so the entire new text is considered as the new content.
+    Calculate the similarity between the given heading and new heading using a
+    threshold. If the similarity score is above the threshold, the new text
+    still contains the heading, so the content after the heading is extracted as the new
+    content. If the similarity score is below the threshold, the new text does
+    not contain the heading, so the entire new text is considered as the new content.
     Calculate the similarity between the old content and new content using a threshold.
     If the similarity score is above the threshold, the content is considered preserved
     and the new content along with its similarity score is returned.
@@ -331,10 +331,10 @@ def preserve_content(
     much and the old content along with its similarity score is returned.
 
     Args:
-        header (str): The header of the old text.
+        heading (str): The heading of the old text.
         old_content (str): The content of the old text.
         new_text (str): The new text.
-        header_similarity_threshold (float, optional): The threshold for header
+        heading_similarity_threshold (float, optional): The threshold for heading
             similarity. Defaults to 0.7.
         content_similarity_threshold (float, optional): The threshold for content
             similarity. Defaults to 0.8.
@@ -343,14 +343,14 @@ def preserve_content(
         tuple[str, float]: A tuple containing the new content and its similarity score.
     """
     parts = new_text.split("\n")
-    new_header = parts[0]
+    new_heading = parts[0]
 
-    header_similarity = header_similarity_score(header, new_header)
-    if header_similarity >= header_similarity_threshold:
-        # new text still contains header
+    heading_similarity = heading_similarity_score(heading, new_heading)
+    if heading_similarity >= heading_similarity_threshold:
+        # new text still contains heading
         new_content = "\n".join(parts[1:])
     else:
-        # new text does not contain header
+        # new text does not contain heading
         new_content = new_text
 
     content_similarity = text_similarity_score(old_content, new_content)
@@ -368,26 +368,26 @@ def tidy_markdown_sections(
     openai_key: str = "",
     openai_model: str = "",
     seed: int = 42,
-    header_similarity_threshold: float = 0.7,
+    heading_similarity_threshold: float = 0.7,
     content_similarity_threshold: float = 0.8,
 ) -> tuple[list[tuple[str, str]], list[dict]]:
     """
-    Tidies up sections of markdown text by splitting them into header and content, and
+    Tidies up sections of markdown text by splitting them into heading and content, and
     then processing each section using the MarkdownTidier class. It takes a list of
-    tuples representing the sections, where each tuple contains a header and
+    tuples representing the sections, where each tuple contains a heading and
     content. The function also accepts optional parameters such as the maximum
     length of the tidied sections, the OpenAI API key, the OpenAI model to use, a
-    seed value for reproducibility, and thresholds for header and content similarity.
+    seed value for reproducibility, and thresholds for heading and content similarity.
 
     Args:
         sections (list[tuple[str, str]]): A list of tuples representing the sections of
-            markdown text. Each tuple contains a header and content.
+            markdown text. Each tuple contains a heading and content.
         max_length (int, optional): The maximum length of the tidied sections.
             Defaults to 4096.
         openai_key (str, optional): The OpenAI API key. Defaults to "".
         openai_model (str, optional): The OpenAI model to use. Defaults to "".
         seed (int, optional): A seed value for reproducibility. Defaults to 42.
-        header_similarity_threshold (float, optional): The threshold for header
+        heading_similarity_threshold (float, optional): The threshold for heading
             similarity. Defaults to 0.7.
         content_similarity_threshold (float, optional): The threshold for content
             similarity. Defaults to 0.8.
@@ -401,23 +401,23 @@ def tidy_markdown_sections(
 
     tidy_sections = []
     all_metadata: list[dict] = []
-    for header, content in sections:
-        print("Tidying:", header)
-        section_text = f"{header}\n\n{content}"
+    for heading, content in sections:
+        print("Tidying:", heading)
+        section_text = f"{heading}\n\n{content}"
         if len(encoding.encode(section_text)) > max_length:
-            tidy_sections.append((header, content))
+            tidy_sections.append((heading, content))
             all_metadata.append({})
         else:
             new_section_text, metadata = tidier.process(section_text)
             new_content, similarty = preserve_content(
-                header,
+                heading,
                 content,
                 new_section_text,
-                header_similarity_threshold=header_similarity_threshold,
+                heading_similarity_threshold=heading_similarity_threshold,
                 content_similarity_threshold=content_similarity_threshold,
             )
             print("\tcontent similarity:", similarty)
-            tidy_sections.append((header, new_content))
+            tidy_sections.append((heading, new_content))
             all_metadata.append(metadata)
 
     return tidy_sections, all_metadata

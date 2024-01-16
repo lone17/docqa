@@ -363,9 +363,7 @@ def generate_long_answers_for_sections_questions(
     for heading, section in sections_with_questions.items():
         print(f"Generating long answers for dense questions of {heading}")
         reference = f"===\n[source: {heading}]\n{section['text']}\n===\n"
-        import pdb
 
-        pdb.set_trace()
         for question in section["dense_questions"]:
             answer, _ = answer_gen.process(
                 question=question["question"],

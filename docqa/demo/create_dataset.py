@@ -128,7 +128,7 @@ if __name__ == "__main__":
 
     # create the dataset
     for options in [
-        (["main"], ["dense", "sparse"], ["long"], ["instruction"]),
+        (["main"], ["dense"], ["long"], ["instruction"]),
         (["summary"], ["dense", "sparse"], ["long"], ["instruction"]),
     ]:
         final_dataset = []

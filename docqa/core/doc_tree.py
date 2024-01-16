@@ -164,8 +164,8 @@ def build_doc_tree_from_pdf(input_file: Path, output_dir: Path) -> dict:
         )
 
         tidy_text_sections = [
-            f"{header.strip()}\n\n{content.strip()}".strip()
-            for header, content in tidy_sections
+            f"{heading.strip()}\n\n{content.strip()}".strip()
+            for heading, content in tidy_sections
         ]
         tidy_markdown = "\n\n".join(tidy_text_sections)
 
@@ -231,8 +231,8 @@ def get_section_full_text(section: dict) -> str:
     """
     flatten_sections = flatten_doc_tree(section)
     text_sections = [
-        f"{header.strip()}\n\n{content.strip()}".strip()
-        for header, content in flatten_sections
+        f"{heading.strip()}\n\n{content.strip()}".strip()
+        for heading, content in flatten_sections
     ]
 
     full_text = "\n\n".join(text_sections)

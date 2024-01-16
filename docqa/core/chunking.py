@@ -104,7 +104,7 @@ def chunk_size_stats(sections: list[tuple[str, str]]):
 
         The function then initializes an empty dictionary `sections_details` to store
         the details of each section. It iterates through each section and checks if the
-        header matches any of the predefined keywords. If it does, it initializes an
+        heading matches any of the predefined keywords. If it does, it initializes an
         empty list `chunks`, otherwise it calls the `chunk_content` function to chunk
         the content and assigns the result to `chunks`. It then adds the details of the
         section to the `sections_details` dictionary.
@@ -113,12 +113,12 @@ def chunk_size_stats(sections: list[tuple[str, str]]):
         `chunks` list for each section in `sections_details`.
 
     Args:
-        sections (list[tuple[str, str]]): A list of tuples containing a header and
+        sections (list[tuple[str, str]]): A list of tuples containing a heading and
             content for each section. The content is a string.
 
     """
     paragraph_lengths = []
-    for header, content in sections:
+    for heading, content in sections:
         paragraphs = content.split("\n\n")
         paragraph_lengths.extend([len(p.split()) for p in paragraphs])
 
@@ -130,8 +130,8 @@ def chunk_size_stats(sections: list[tuple[str, str]]):
     )
 
     sections_details = {}
-    for header, content in sections:
-        if re.sub(r"[^a-zA-Z0-9]", "", header.lower()) in (
+    for heading, content in sections:
+        if re.sub(r"[^a-zA-Z0-9]", "", heading.lower()) in (
             "reference",
             "references",
             "acknowledgement",
@@ -140,7 +140,7 @@ def chunk_size_stats(sections: list[tuple[str, str]]):
             chunks = []
         else:
             chunks = chunk_content(content)
-        sections_details[header] = {
+        sections_details[heading] = {
             "content": content,
             "chunks": chunks,
         }
