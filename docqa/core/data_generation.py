@@ -260,7 +260,7 @@ def generate_top_sections_questions(
     Args:
         doc_tree (dict): The document tree representing the sections of the document.
         output_file (Path): The path to the output file where the top sections with
-            uestions will be saved.
+            questions will be saved.
         openai_key (str, optional): The OpenAI API key. Defaults to an empty string.
         openai_model (str, optional): The OpenAI model to use for question generation.
             Defaults to an empty string.
