@@ -2,7 +2,7 @@ from unittest.mock import MagicMock
 
 import chromadb
 import pytest
-from angle_emb import AnglE
+from angle_emb import AnglE, Prompts
 
 from docqa.core.retrieval import SemanticRetriever
 
@@ -40,7 +40,9 @@ def test_process_with_no_filter(semantic_retriever):
     results = semantic_retriever.process(query, top_k)
 
     # Check the call to the embedding model's encode method
-    semantic_retriever.embedding_model.encode.assert_called_once_with({"text": query})
+    semantic_retriever.embedding_model.encode.assert_called_once_with(
+        {"text": query}, prompt=Prompts.C
+    )
 
     # Check the call to the vector_db's query method
     semantic_retriever.vector_db.query.assert_called_once_with(
@@ -83,7 +85,9 @@ def test_process_with_filter(semantic_retriever):
     results = semantic_retriever.process(query, top_k, metadata_filter=metadata_filter)
 
     # Check the call to the embedding model's encode method
-    semantic_retriever.embedding_model.encode.assert_called_once_with({"text": query})
+    semantic_retriever.embedding_model.encode.assert_called_once_with(
+        {"text": query}, prompt=Prompts.C
+    )
 
     # Check the call to the vector_db's query method
     semantic_retriever.vector_db.query.assert_called_once_with(
@@ -124,7 +128,9 @@ def test_valid_inputs_returns_expected_results(semantic_retriever):
     results = semantic_retriever.process(query, top_k)
 
     # Check the call to the embedding model's encode method
-    semantic_retriever.embedding_model.encode.assert_called_once_with({"text": query})
+    semantic_retriever.embedding_model.encode.assert_called_once_with(
+        {"text": query}, prompt=Prompts.C
+    )
 
     # Check the call to the vector_db's query method
     semantic_retriever.vector_db.query.assert_called_once_with(
@@ -167,7 +173,7 @@ def test_mocks_encode_and_query_methods(semantic_retriever, mocker):
     semantic_retriever.process(query, top_k)
 
     # Check the call to the embedding model's encode method
-    encode_mock.assert_called_once_with({"text": query})
+    encode_mock.assert_called_once_with({"text": query}, prompt=Prompts.C)
 
     # Check the call to the vector_db's query method
     query_mock.assert_called_once_with(
@@ -199,7 +205,7 @@ def test_correct_query_to_encode_method(semantic_retriever, mocker):
     semantic_retriever.process(query, top_k)
 
     # Check the call to the embedding model's encode method with the correct query
-    encode_mock.assert_called_once_with({"text": query})
+    encode_mock.assert_called_once_with({"text": query}, prompt=Prompts.C)
 
 
 # Calls the process method with empty query and returns empty results.

@@ -6,7 +6,7 @@ import tiktoken
 from marker.convert import convert_single_pdf
 from marker.models import load_all_models
 from openai import OpenAI
-from pydantic import BaseModel, computed_field
+from pydantic import BaseModel, ConfigDict, computed_field
 
 
 class MarkdownTidier(BaseModel):
@@ -22,8 +22,7 @@ class MarkdownTidier(BaseModel):
         api_client (OpenAI): The OpenAI client.
     """
 
-    class Config:
-        arbitrary_types_allowed = True
+    model_config = ConfigDict(arbitrary_types_allowed=True)
 
     openai_key: str
     openai_model: str

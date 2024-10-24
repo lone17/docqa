@@ -35,7 +35,13 @@ _openai_chat_completion_response = ChatCompletion.model_validate(
                 "logprobs": None,
             }
         ],
-        "usage": {"completion_tokens": 9, "prompt_tokens": 10, "total_tokens": 19},
+        "usage": {
+            "completion_tokens_details": None,
+            "completion_tokens": 9,
+            "prompt_tokens_details": None,
+            "prompt_tokens": 10,
+            "total_tokens": 19,
+        },
     }
 )
 
@@ -81,11 +87,7 @@ class TestQAPairGenerator:
         mock_return_value = _openai_chat_completion_response
         assert metadata == {
             "finish_reason": mock_return_value.choices[0].finish_reason,
-            "usage": {
-                "completion_tokens": mock_return_value.usage.completion_tokens,
-                "prompt_tokens": mock_return_value.usage.prompt_tokens,
-                "total_tokens": mock_return_value.usage.total_tokens,
-            },
+            "usage": mock_return_value.model_dump().get("usage", {}),
         }
         openai_mocker.assert_called_once_with(
             model="valid_model",
@@ -136,11 +138,7 @@ class TestQAPairGenerator:
         mock_return_value = _openai_chat_completion_response
         assert metadata == {
             "finish_reason": mock_return_value.choices[0].finish_reason,
-            "usage": {
-                "completion_tokens": mock_return_value.usage.completion_tokens,
-                "prompt_tokens": mock_return_value.usage.prompt_tokens,
-                "total_tokens": mock_return_value.usage.total_tokens,
-            },
+            "usage": mock_return_value.model_dump().get("usage", {}),
         }
         openai_mocker.assert_called_once_with(
             model="valid_model",
