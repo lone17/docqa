@@ -4,7 +4,7 @@ from typing import Any
 
 import chromadb
 import numpy as np
-from angle_emb import AnglE, Prompts
+from angle_emb import AnglE
 from chromadb.config import Settings
 from pydantic import BaseModel
 
