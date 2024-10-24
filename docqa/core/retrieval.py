@@ -1,6 +1,6 @@
 import chromadb
-from angle_emb import AnglE
-from pydantic import BaseModel
+from angle_emb import AnglE, Prompts
+from pydantic import BaseModel, ConfigDict
 
 
 class SemanticRetriever(BaseModel):
@@ -12,8 +12,7 @@ class SemanticRetriever(BaseModel):
         vector_db (chromadb.Collection): The Chroma vector database.
     """
 
-    class Config:
-        arbitrary_types_allowed = True
+    model_config = ConfigDict(arbitrary_types_allowed=True)
 
     embedding_model: AnglE
     vector_db: chromadb.Collection
@@ -33,7 +32,9 @@ class SemanticRetriever(BaseModel):
         Returns:
             list[dict]: The list of retrieved results.
         """
-        query_embeddings = self.embedding_model.encode({"text": query})
+        query_embeddings = self.embedding_model.encode(
+            {"text": query}, prompt=Prompts.C
+        )
 
         results = self.vector_db.query(
             query_embeddings=query_embeddings, n_results=top_k, where=metadata_filter

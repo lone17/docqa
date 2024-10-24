@@ -2,7 +2,7 @@ import json
 from pathlib import Path
 
 from openai import OpenAI
-from pydantic import BaseModel, computed_field
+from pydantic import BaseModel, ConfigDict, computed_field
 
 from .chunking import chunk_content
 from .doc_tree import get_section_full_text
@@ -18,8 +18,7 @@ class QAPairGenerator(BaseModel):
         seed (int, optional): The seed for the random number generator. Defaults to 42.
     """
 
-    class Config:
-        arbitrary_types_allowed = True
+    model_config = ConfigDict(arbitrary_types_allowed=True)
 
     openai_key: str
     openai_model: str
@@ -165,8 +164,7 @@ class AnswerGenerator(BaseModel):
         seed (int, optional): The seed for the random number generator. Defaults to 42.
     """
 
-    class Config:
-        arbitrary_types_allowed = True
+    model_config = ConfigDict(arbitrary_types_allowed=True)
 
     openai_key: str
     openai_model: str

@@ -209,7 +209,6 @@ def get_pipeline(data_dir: Path, openai_key: str, openai_model: str) -> Pipeline
     embedding_model = AnglE.from_pretrained(
         "WhereIsAI/UAE-Large-V1", pooling_strategy="cls"
     )
-    embedding_model.set_prompt(prompt=Prompts.C)
     print("Finish loading embedding model.")
 
     db_dir = data_dir / "chroma"
